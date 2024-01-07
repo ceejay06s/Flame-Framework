@@ -9,5 +9,4 @@ class User extends Model
 {
     use \Flame\Authrization;
     public $name = 'User';
-    public $useTable = 'users';
 }
