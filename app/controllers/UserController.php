@@ -2,31 +2,36 @@
 
 use Flame\Controller\AppController;
 
-use Flame\Model\User;
-
-
-
 class UserController extends AppController
 {
     var $name = "User";
 
+    function __construct()
+    {
+        parent::__construct();
+    }
+
     function login()
     {
-        $mode = new User;
+        $this->controller->data['test1'] = 'test';
+        $this->loadModel('User');
+        //var_dump($this, 'ev');
         //$mode->id = 1;
-        $test = $mode->find('last', array(
-            'fields' => ['User.*', ['UserDetail.*']],
-            'conditions' => ['User.username' => 'ceejay'],
-            'joins' => [
-                [
-                    'type' => 'left',
-                    'table' => 'user_details',
-                    'alias' => 'UserDetail',
-                    'conditions' => ['UserDetail.user_id = User.id'],
-                ]
-            ]
-        ));
-        $this->log($test);
-        $this->render('users/login', ['data' => 'test data']);
+        // $test = $this->User->find('last', array(
+        //     'fields' => ['User.id', ['UserDetail.*']],
+        //     'conditions' => ['User.username' => 'ceejay'],
+        //     'joins' => [
+        //         [
+        //             'type' => 'left',
+        //             'table' => 'user_details',
+        //             'alias' => 'UserDetail',
+        //             'conditions' => ['UserDetail.user_id = User.id'],
+        //         ]
+        //     ]
+        // ));
+        // $this->data = 'test';
+        // $this->log($mode->statement);
+        $this->log($this->User->login());
+        //$this->render('users/login', ['data' => '<pre>' . print_r($test, true)]);
     }
 }

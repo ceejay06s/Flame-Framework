@@ -5,7 +5,6 @@
 namespace Flame;
 
 use mysqli;
-use mysqli_result;
 
 class Model
 {
@@ -43,12 +42,12 @@ class Model
     public $ComparisonOperators = array('=', '>', '<', '>=', '<=', '<>', '!=', 'IS', 'LIKE', 'REGEXP', 'IN', 'BETWEEN');
     public $CompoundOperators = array('+=', '-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>=');
     public $LogicalOperators = array('ALL', 'AND', 'ANY', 'BETWEEN', 'EXISTS', 'IN', 'LIKE', 'NOT', 'OR', 'SOME');
-
-    public function __construct()
+    public $controller;
+    public $data;
+    public function __construct(&$controller = null)
     {
         require APP . 'config/database.php';
         $config = get_defined_vars()[$this->useSchema];
-        //var_dump($config);
         $this->host = $config['host'];
         $this->type = $config['type'];
         $this->port = $config['port'];
@@ -56,7 +55,11 @@ class Model
         $this->password = $config['password'];
         $this->prefix = $config['prefix'];
         $this->schema = $config['database'];
+        $this->useTable = strtolower(Inflector::pluralize($this->name));
 
+        $this->controller = new $controller;
+
+        $this->data =  $this->controller->data;
         $this->_Connect();
     }
 
@@ -69,13 +72,12 @@ class Model
         return $this;
     }
 
-    public function find($type, $args = [
-        'fields' => [], 'conditions' => [], 'joins' => [],
-        'limit' => null, 'offset' => null, 'groupBy' => null,  'orderBy' => null
-    ])
+    public function find($type, $args = ['fields' => [], 'conditions' => [], 'joins' => [], 'limit' => null, 'offset' => null, 'groupBy' => null,  'orderBy' => null])
     {
         if (isset($args['fields'])) {
             $this->setFields($args['fields']);
+        } else {
+            $this->setFields('*');
         }
         if (isset($args['limit'])) {
             $this->limit = ($args['limit']);
@@ -97,7 +99,7 @@ class Model
         }
 
         $this->statement = "";
-        if (strtolower($type) == 'explain') {
+        if (strtolower($type) == 'EXPLAIN') {
             $this->statement =  $type . PHP_EOL . $this->statement;
         } elseif (strtolower($type) == 'first') {
             $this->limit =  1;
@@ -122,36 +124,44 @@ class Model
 
         $result = mysqli_query($this->connect, $this->statement);
         $mresult = [];
-        foreach (mysqli_fetch_all($result) as $count => $record) {
-            foreach ($record as $key => $val) {
-                $details = mysqli_fetch_field_direct($result, $key);
-                if (!in_array(strtolower($type), array('first', 'last')))
-                    $mresult[$count][$details->table][$details->name] = $val;
-                else    $mresult[$details->table][$details->name] = $val;
+        if ($result)
+            foreach (mysqli_fetch_all($result) as $count => $record) {
+                foreach ($record as $key => $val) {
+                    $details = mysqli_fetch_field_direct($result, $key);
+                    if (!in_array(strtolower($type), array('first', 'last')))
+                        $mresult[$count][$details->table][$details->name] = $val;
+                    else    $mresult[$details->table][$details->name] = $val;
+                }
             }
-        }
-        $this->mresult = $mresult;
-        return $this->mresult;
+        else return $this->connect->error . PHP_EOL . $this->statement;
+        //$this->mresult = $mresult;
+        return $mresult;
     }
 
     public function joins()
     {
         $jointTables = '';
         $joins = (!empty(func_get_args()) ?  func_get_args() : $this->joins);
-        foreach ($joins as $jointTable) {
-            $jointTables .= strtoupper($jointTable['type']) . " JOIN " . $jointTable['table'] . ' as ' . $jointTable['alias'];
-            $jointTables .= ' ON ' . $this->conditions($jointTable['conditions']);
+        if (!empty($joins)) {
+            foreach ($joins as $jointTable) {
+                $jointTables .= strtoupper($jointTable['type']) . " JOIN " . $jointTable['table'] . ' as ' . $jointTable['alias'];
+                $jointTables .= ' ON ' . $this->conditions($jointTable['conditions']);
+            }
         }
         return $jointTables;
     }
 
     public function setFields($args)
     {
-        foreach ($args as $field) {
-            if (is_array($field)) {
-                $this->setFields($field);
-            } else {
-                $this->fields[] = $field;
+        if (!is_array($args))
+            $this->fields[] = $args;
+        else {
+            foreach ($args as $field) {
+                if (is_array($field)) {
+                    $this->setFields($field);
+                } else {
+                    $this->fields[] = $field;
+                }
             }
         }
     }

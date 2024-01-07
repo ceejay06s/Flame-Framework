@@ -7,17 +7,13 @@ class Core
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
-
     public function __construct()
     {
-
-
+        //include APP . "controllers/$Controllers";
         $this->parseUrl();
-
         $controllerPath = CONTROLLERS . $this->controller . '.php';
-
         if (file_exists($controllerPath)) {
-            require_once $controllerPath;
+            include $controllerPath;
             $this->controller = new $this->controller;
 
             if (method_exists($this->controller, $this->method)) {
@@ -34,25 +30,22 @@ class Core
     {
         if (isset($_SERVER['REQUEST_URI'])) {
             $uri = $_SERVER['REQUEST_URI'];
+            $url = rtrim($uri, '/');
+            $url = filter_var($url, FILTER_SANITIZE_URL);
+            $url = trim($url);
+            $url = explode('/', $url);
+            $url['url']  = $url[0];
+            if (isset($url[1], $url[2]))
+                $url['url'] = '/' . $url[1] . '/' . $url[2];
             require_once APP . "config/router.php";
-            //var_dump($router->routes[$uri]);
-
-            if (array_key_exists($uri, $router->routes)) {
-
-                $this->controller = $router->routes[$uri]['controller'];
-                $this->method = $router->routes[$uri]['action'];
-                $this->params = $router->routes[$uri]['params'];
+            if (array_key_exists($url['url'], $router->routes)) {
+                $this->controller = $router->routes[$url['url']]['controller'];
+                $this->method = $router->routes[$url['url']]['action'];
+                $this->params = $router->routes[$url['url']]['params'];
             } else {
-
-                $url = rtrim($uri, '/');
-                $url = filter_var($url, FILTER_SANITIZE_URL);
-                $url = trim($url);
-                $url = explode('/', $url);
-
-                //var_dump($url);
                 $this->controller = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
                 $this->method = isset($url[1]) ? $url[1] : 'index';
-                $this->params = array_slice($url, 2);
+                $this->params = array_slice($url, 3);
             }
         }
     }
