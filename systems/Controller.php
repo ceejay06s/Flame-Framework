@@ -24,7 +24,7 @@ class Controller
         $this->View->layout = $this->layout;
         $this->View->titleLayout = $this->titleLayout;
         $this->controller = $this;
-
+        $GLOBALS['controller'] = self::class;
         $this->data = (!empty($_REQUEST['data']) ? $_REQUEST['data'] : $_REQUEST);
         foreach ($this->useModels as $ModelName) {
             $this->loadModel($ModelName);

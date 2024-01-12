@@ -2,11 +2,11 @@
 
 namespace Flame;
 
-use Random\Engine\Secure;
 
 trait Authrization
 {
     public $sessionTimeout = 1800;
+
     function login()
     {
         //var_dump($this->data);
@@ -23,9 +23,11 @@ trait Authrization
             $verify = $this->passwordVerify($this->data[$this->name][$this->authFields['password']], $tmp[$this->name][$this->authFields['password']]);
             if ($verify) {
                 unset($tmp[$this->name][$this->authFields['password']]);
-                $_SESSION['Auth'] = $tmp;
+
                 $_SESSION['Auth']['isLoggedIn'] = true;
                 $_SESSION['Auth']['uptime'] = time();
+                $_SESSION['Auth']['expire'] = time() + (10 * 365 * 24 * 60 * 60);
+                $_SESSION['Auth'][$this->name] = $tmp[$this->name];
                 return $_SESSION;
             }
         }
@@ -48,5 +50,21 @@ trait Authrization
     function passwordVerify($data, $verify)
     {
         return \password_verify($this->hash($data), $verify);
+    }
+}
+class Auth
+{
+    public $allowed = [];
+    public $controller;
+    public function __construct(&$controller = null)
+    {
+        if (!empty($controller))
+            $this->controller =  $controller;
+    }
+    public function allow()
+    {
+
+        $actions = func_get_args();
+        var_dump($this->controller->name);
     }
 }

@@ -2,13 +2,17 @@
 
 use Flame\Controller\AppController;
 
+
 class UserController extends AppController
 {
     var $name = "User";
-
+    var $Auth;
     function __construct()
     {
         parent::__construct();
+        $this->Auth = new \Flame\Auth($this->controller);
+
+        $this->Auth->allow('test');
     }
 
     function login()
