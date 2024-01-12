@@ -9,13 +9,13 @@ class Core
     protected $params = [];
     public function __construct()
     {
-        //include APP . "controllers/$Controllers";
         $this->parseUrl();
         $controllerPath = CONTROLLERS . $this->controller . '.php';
+
+
         if (file_exists($controllerPath)) {
             include $controllerPath;
             $this->controller = new $this->controller;
-
             if (method_exists($this->controller, $this->method)) {
                 call_user_func_array([$this->controller, $this->method], $this->params);
             } else {

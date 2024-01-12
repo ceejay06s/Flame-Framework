@@ -4,9 +4,7 @@ namespace Flame\Model;
 
 use Flame\Model;
 
-class Cookies extends Model
+class Cookie extends Model
 {
-    //use \Flame\Authrization;
-
     public $name = 'Cookie';
 }

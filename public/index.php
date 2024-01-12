@@ -11,10 +11,15 @@ $config = function ($conf, $value) {
     $GLOBALS[$conf] = $value;
 };
 
+function useLibrary($lib, $dir = 'libs', $path = SYSTEM)
+{
+    // var_dump($lib);
+    require_once $path . $dir . DS . $lib . '.php';
+};
 require_once APP . 'config/core.php';
 
-require_once SYSTEM . 'libs\Logs.php';
-require_once SYSTEM . 'libs\Auth.php';
+// require_once SYSTEM . 'libs\Logs.php';
+// require_once SYSTEM . 'libs\Authorization.php';
 require_once SYSTEM . 'libs\Inflector.php';
 require_once SYSTEM . 'Router.php';
 require_once SYSTEM . 'Core.php';

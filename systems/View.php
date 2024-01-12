@@ -8,7 +8,12 @@ class View
     public $data;
     public static $contentLayout;
     public  $titleLayout;
+    public $controller;
 
+    public function __construct(&$controller = null)
+    {
+        $this->controller = $controller;
+    }
 
     public function berforeRender()
     {

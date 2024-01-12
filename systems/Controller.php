@@ -1,9 +1,13 @@
 <?php
 
+
 namespace Flame;
 
-use Flame\View;
+useLibrary('Logs', 'libs', SYSTEM);
 
+
+use Flame\View;
+use stdClass;
 
 class Controller
 {
@@ -19,12 +23,12 @@ class Controller
 
     public function __construct()
     {
-        //session_start();
-        $this->View = new View;
+
+        $this->View = new View($this);
         $this->View->layout = $this->layout;
         $this->View->titleLayout = $this->titleLayout;
         $this->controller = $this;
-        $GLOBALS['controller'] = self::class;
+
         $this->data = (!empty($_REQUEST['data']) ? $_REQUEST['data'] : $_REQUEST);
         foreach ($this->useModels as $ModelName) {
             $this->loadModel($ModelName);
@@ -33,9 +37,10 @@ class Controller
 
     public function loadModel($ModelName)
     {
-        include APP . 'models' . DS . $ModelName . '.php';
+        require_once APP . 'models' . DS . $ModelName . '.php';
         $ModelFName = "\Flame\Model" . DS . $ModelName;
-        $this->$ModelName = new $ModelFName($this);
+        $this->controller->$ModelName = $this->$ModelName = new $ModelFName($this);
+
         return $this;
     }
     public function beforeRender()

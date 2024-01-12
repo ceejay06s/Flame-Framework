@@ -15,19 +15,20 @@ class Model
      **/
     public $useSchema = 'default';
     public $useTable;
-    public $schema;
-    public $type;
-    public $host;
-    public $port;
-    public $username;
-    public $password;
-    public $prefix;
 
-    public $connect;
+    private $schema;
+    private $type;
+    private $host;
+    private $port;
+    private $username;
+    private $password;
+    private $prefix;
+
+    private $connect;
     public $statement;
     public $params;
     public $queryType;
-    public $id;
+    //public $id;
     public $sort;
     public $limit;
     public $offset;
@@ -61,6 +62,8 @@ class Model
 
         $this->data =  $this->controller->data;
         $this->_Connect();
+
+        $this->listFields();
     }
 
     function _Connect()
@@ -70,6 +73,26 @@ class Model
             var_dump($this->connect->connect_error);
         }
         return $this;
+    }
+
+    function listFields()
+    {
+        $this->statement = "DESCRIBE {$this->useTable}";
+        $result = mysqli_query($this->connect, $this->statement);
+        while ($r = mysqli_fetch_assoc($result)) {
+            $this->{$r['Field']} = null;
+        }
+        return  $this;
+    }
+
+    function create()
+    {
+        $this->log(print_r($this, true));
+        return $this;
+    }
+
+    function save()
+    {
     }
 
     public function find($type, $args = ['fields' => [], 'conditions' => [], 'joins' => [], 'limit' => null, 'offset' => null, 'groupBy' => null,  'orderBy' => null])
@@ -197,6 +220,7 @@ class Model
             $this->statement .= ' ORDER BY ' . $this->sort;
         if (!empty($this->limit))
             $this->statement .= ' LIMIT ' . $this->limit;
+
         $result = mysqli_query($this->connect, $this->statement);
         if (mysqli_num_rows($result) > 0) {
 
