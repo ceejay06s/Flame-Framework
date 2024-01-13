@@ -9,32 +9,69 @@ use PHPMailer\PHPMailer\Exception;
 class Mail
 {
     /**
-     * _contstruct
-     * **/
-
+     * @var Array $lines Array of SendMail Content
+     **/
     private $lines;
+    /**
+     * @var String $mail_path SendMail Directory
+     **/
     private $mail_path;
+    /**
+     * @var Array $values Array of SendMail Active Value
+     **/
     private $values;
+    /**
+     * @var Array $values Array of SendMail Line Indexes
+     **/
     private $keys;
-
-
+    /**
+     * @var String $smtp SMTP Server or Relay Server
+     **/
     public $smtp;
+    /**
+     * @var String $username SMTP Server Username or Relay Server Username
+     **/
     public $username;
+    /**
+     * @var String $password SMTP Server Password or Relay Server Password
+     **/
     public $password;
     public $port;
     /**
-     * @var $protocol choose from AUTO NONE SSL TLS
-     * **/
+     * @var String $protocol choose from AUTO NONE SSL TLS
+     **/
     public $protocol;
-
+    /**
+     * @var String $body Email Body content
+     **/
     public $body;
+    /**
+     * @var String $subject Email Subject
+     **/
     public $subject;
-
+    /**
+     * @var String $to Recipient Email
+     **/
     public $to;
+    /**
+     * @var String $to Recipient Name
+     **/
     public $toName;
+    /**
+     * @var String $from Sender Email
+     **/
     public $from;
+    /**
+     * @var String $from Sender Name
+     **/
     public $fromName;
+    /**
+     * @var String $from ReplyTo Email
+     **/
     public $replyTo;
+    /**
+     * @var String $from ReplyTo Name
+     **/
     public $replyToName;
 
     public $cc;
@@ -51,6 +88,10 @@ class Mail
 
     public $attachments = array();
     public $lastMessageID;
+
+    /**
+     * @return Class Mail
+     * **/
 
     public function __construct()
     {
@@ -89,11 +130,11 @@ class Mail
     {
         $variables = get_object_vars($this);
         if (!$this->mailer) {
-            $this->values['smtp_server'] = ($variables['smtp']) ? $variables['smtp'] : NULL;
-            $this->values['smtp_port'] = ($variables['port']) ? $variables['port'] : NULL;
-            $this->values['auth_username'] = ($variables['username']) ? $variables['username'] : NULL;
-            $this->values['auth_password'] = ($variables['password']) ? $variables['password'] : NULL;
-            $this->values['smtp_ssl'] = ($variables['protocol']) ? $variables['protocol'] : NULL;
+            $this->values['smtp_server'] = ($variables['smtp']) ? $variables['smtp'] : null;
+            $this->values['smtp_port'] = ($variables['port']) ? $variables['port'] : null;
+            $this->values['auth_username'] = ($variables['username']) ? $variables['username'] : null;
+            $this->values['auth_password'] = ($variables['password']) ? $variables['password'] : null;
+            $this->values['smtp_ssl'] = ($variables['protocol']) ? $variables['protocol'] : null;
 
 
             foreach ($this->values as $fields => $value) {
@@ -108,14 +149,33 @@ class Mail
             $this->mailer->SMTPAuth   = 'true';                                   //Enable SMTP authentication
             $this->mailer->Username   = $variables['username'];                     //SMTP username
             $this->mailer->Password   = $variables['password'];                               //SMTP password
-            $this->mailer->SMTPSecure = ($variables['protocol'] == 'ssl') ? PHPMailer::ENCRYPTION_SMTPS : 'tls';            //Enable implicit TLS encryption
+            $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            if ($variables['protocol'] == 'ssl') {
+                $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;          //Enable implicit TLS encryption
+            }
+
+
             $this->mailer->Port       = $variables['port'];
             $this->mailer->XMailer    = $this->XMailer;
         }
     }
-    function send()
+    /**
+     * @param String $recipient Recipient Email Address
+     * @param String $subject Email Subject
+     * @param String $body Email Body Content
+     * @param Array $header list of Request Header
+     * @param String $params Optional Parameter after header
+     * @return Any returns true or false or 
+     * **/
+    function send($recipient = null, $subject = null, $body = null, $header = null, $params = '')
     {
         $this->_set();
+        $this->to = isset($recipient) ? $recipient : $this->to;
+        $this->subject = isset($subject) ? $subject : $this->subject;
+        $this->body = isset($body) ? $body : $this->body;
+        $this->header = isset($header) ? $header : $this->header;
+        $this->params = isset($params) ? $params : $this->params;
+
         if (!$this->mailer) {
             return mail($this->to, $this->subject, $this->body, implode('\r\n', $this->header), $this->params);
         } else {
