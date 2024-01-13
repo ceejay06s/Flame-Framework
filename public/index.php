@@ -5,12 +5,16 @@ define("SYSTEM", ROOT . 'systems' . DS);
 define("APP", ROOT . 'app' . DS);
 define("CONTROLLERS", APP . 'controllers' . DS);
 
-session_start();
 
+include_once APP . 'vendor/autoload.php';
 
 $config = function ($conf, $value) {
     $GLOBALS[$conf] = $value;
 };
+
+if (isset($session_path)) ini_set('session.save_path', $session_path);
+session_start();
+
 function useLibrary($lib, $dir = 'libs', $path = SYSTEM)
 {
     require_once $path . $dir . DS . $lib . '.php';

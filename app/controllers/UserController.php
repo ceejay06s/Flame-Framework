@@ -22,5 +22,11 @@ class UserController extends AppController
 
         //$this->log($this->User->login());
         $mail = new \Flame\Mail;
+        $mail->to = "christianbalaisvi@gmail.com";
+        $mail->from = "christianbalais06@gmail.com";
+        $mail->subject = "testing";
+        $mail->body = 'test12345';
+        echo "<pre>";
+        var_dump($mail->send());
     }
 }
