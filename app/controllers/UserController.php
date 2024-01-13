@@ -3,7 +3,6 @@
 use Flame\Controller\AppController;
 
 useLibrary('Authorization', 'libs', SYSTEM);
-useLibrary('Mail', 'libs', SYSTEM);
 class UserController extends AppController
 {
     var $name = "User";
