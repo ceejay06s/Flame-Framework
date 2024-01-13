@@ -1,2 +1,2 @@
-app/tmp/logs/
-app/vendor/
+/app/tmp/logs/
+/app/vendor/
