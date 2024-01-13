@@ -39,8 +39,25 @@ class Mail
 
     public function __construct()
     {
-        $this->getSendMail();
+        global $smtp_service, $smtp_server, $smtp_port, $smtp_protocol, $smtp_username, $smtp_password;
+        $this->smtp = $smtp_server;
+        $this->port = $smtp_port;
+        $this->protocol = $smtp_protocol;
+        $this->username = $smtp_username;
+        $this->username = $smtp_password;
 
+        switch ($smtp_service) {
+            case "native":
+                //
+                break;
+            case "sendmail":
+                $this->getSendMail();
+                break;
+            case "PhpMailer":
+                break;
+            default:
+                $this->getSendMail();
+        }
 
         return $this;
     }
