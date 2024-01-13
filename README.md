@@ -1,1 +1,11 @@
-<h1>Flame Framework v1.0.0</h1>
+<h1>Flame Framework</h1>
+
+a Simple MVC Framework ligthweight
+
+Inbuilt Http Stream Request
+Secure Basic Auth 
+
+Email Option
+- Native
+- SendMail
+- PhpMailer
