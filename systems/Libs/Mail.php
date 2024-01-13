@@ -51,6 +51,7 @@ class Mail
         $this->values['smtp_port'] = ($variables['port']) ? $variables['port'] : NULL;
         $this->values['auth_username'] = ($variables['username']) ? $variables['username'] : NULL;
         $this->values['auth_password'] = ($variables['password']) ? $variables['password'] : NULL;
+        $this->values['smtp_ssl'] = ($variables['protocol']) ? $variables['protocol'] : NULL;
 
 
         foreach ($this->values as $fields => $value) {
