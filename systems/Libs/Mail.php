@@ -18,6 +18,10 @@ class Mail
     public $username;
     public $password;
     public $port;
+    /**
+     * @var $protocol choose from AUTO NONE SSL TLS
+     * **/
+    public $protocol;
 
     public $body;
     public $subject;
@@ -28,6 +32,9 @@ class Mail
 
     public $replyTo;
 
+    public $header = array();
+    public $params  = '';
+
     public $MesageID;
 
     public function __construct()
@@ -37,30 +44,28 @@ class Mail
 
         return $this;
     }
-    function send()
+    private function _set()
     {
         $variables = get_object_vars($this);
-        if ($variables['smtp']) {
-            $this->values['smtp_server'] = $variables['smtp'];
+        $this->values['smtp_server'] = ($variables['smtp']) ? $variables['smtp'] : NULL;
+        $this->values['smtp_port'] = ($variables['port']) ? $variables['port'] : NULL;
+        $this->values['auth_username'] = ($variables['username']) ? $variables['username'] : NULL;
+        $this->values['auth_password'] = ($variables['password']) ? $variables['password'] : NULL;
+
+
+        foreach ($this->values as $fields => $value) {
+            $this->lines[$this->keys[$fields]] = "{$fields}={$value}";
         }
-        if ($variables['port']) {
-            $this->values['smtp_port'] = $variables['port'];
-        }
-        if ($variables['username']) {
-            $this->values['auth_username'] = $variables['username'];
-        }
-        if ($variables['password']) {
-            $this->values['auth_password'] = $variables['password'];
-        }
+        file_put_contents($this->mail_path, implode(PHP_EOL, $this->lines));
     }
-    function get_mail_conf($key)
+    function send()
     {
-        return $this->values[$key];
+        $this->_set();
+        return mail($this->to, $this->subject, $this->body, implode('\r\n', $this->header), $this->params);
     }
 
     function getSendMail()
     {
-
         $sendmail_path = ini_get('sendmail_path');
         list($sendmail_path) = explode(' ', $sendmail_path);
         $this->mail_path = $sendmail_path . '.ini';
@@ -69,10 +74,7 @@ class Mail
         $keys = [];
         $values = [];
         foreach ($this->lines as $line => $val) {
-
-
             if (!strstr($val, '; ')) {
-
                 if (strstr($val, '=')) {
                     $dd = explode('=', $val);
                     $this->keys[$dd[0]] = $line;
@@ -80,7 +82,6 @@ class Mail
                 }
             }
         }
-
         return $this;
     }
 }

@@ -23,10 +23,16 @@ class UserController extends AppController
         //$this->log($this->User->login());
 
 
-        $Mail = new \Flame\Mail;
-        $Mail->smtp = "sandbox.smtp.mailtrap.io";
-        $Mail->body = "test";
-        $Mail->subject = "test";
-        $Mail->send();
+        $mail = new \Flame\Mail;
+        $mail->smtp = "sandbox.smtp.mailtrap.io";
+        $mail->port = 25;
+        $mail->protocol = "tls";
+        $mail->username = "b436de3cde2761";
+        $mail->password = "28c65e1ad5d21d";
+        $mail->body = "test";
+        $mail->subject = "test";
+        $mail->header[] = 'FROM: christianbalais06@gmail.com';
+        $mail->to = 'christianbalaisvi@gmail.com';
+        $mail->send();
     }
 }
