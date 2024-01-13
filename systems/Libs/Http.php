@@ -1,20 +1,24 @@
 <?php
+
 namespace Flame;
+
+use String;
+
 class Http
 {
     private $http;
     public  $response;
 
-    public  String  $url;
-    public  String $method;
+    public  $url;
+    public  $method;
     public $content;
     public  $header = array('Content-type: application/x-www-form-urlencoded');
-    public  String $proxy;
-    public Bool $requestFullUri = false;
-    public Int $followLocation = 1;
-    public Int $maxRedirect = 20;
-    public Float $protocolVersion = 1.0;
-    public Bool $ignoreError = false;
+    public   $proxy;
+    public  $requestFullUri = false;
+    public  $followLocation = 1;
+    public  $maxRedirect = 20;
+    public  $protocolVersion = 1.0;
+    public  $ignoreError = false;
     private $context;
     private  $data;
     public $timeout = 30;
