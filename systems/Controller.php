@@ -5,9 +5,9 @@ namespace Flame;
 
 useLibrary('Logs', 'libs', SYSTEM);
 
+useLibrary('Auth', 'libs', SYSTEM);
 
 use Flame\View;
-use stdClass;
 
 class Controller
 {
@@ -20,10 +20,13 @@ class Controller
     public $titleLayout = 'Flame';
 
     public $useModels = [];
+    public $Auth;
+
+    private $sets;
 
     public function __construct()
     {
-
+        $this->Auth = new Auth($this);
         $this->View = new View($this);
         $this->View->layout = $this->layout;
         $this->View->titleLayout = $this->titleLayout;
@@ -47,10 +50,16 @@ class Controller
     {
         return $this;
     }
+
+    public function set($var, $values)
+    {
+        $this->sets[$var] = $values;
+        return $this;
+    }
     public function render($view, $args = [])
     {
         $this->beforeRender();
-
+        $args = array_merge_recursive($this->sets, $args);
         $this->View->render($view, $args);
     }
 }

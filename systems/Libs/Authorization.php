@@ -2,8 +2,6 @@
 
 namespace Flame;
 
-use Flame\Model\Cookies;
-
 trait Authorization
 {
 

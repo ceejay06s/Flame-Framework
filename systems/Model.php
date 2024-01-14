@@ -47,7 +47,7 @@ class Model
     public $data;
     public function __construct(&$controller = null)
     {
-        require APP . 'config/database.php';
+        require_once APP . 'config/database.php';
         $config = get_defined_vars()[$this->useSchema];
         $this->host = $config['host'];
         $this->type = $config['type'];

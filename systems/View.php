@@ -18,12 +18,25 @@ class View
     public function berforeRender()
     {
     }
-    function render($_view, $data)
+    function render($_view, $data = [])
     {
         $titleLayout = $this->titleLayout;
         extract($data);
         ob_start();
-        include APP . "views/$_view.php";
+        if (strstr($_view, '/')) {
+            if (file_exists(APP . "views/$_view.php")) {
+                include_once APP . "views/$_view.php";
+            } else {
+                throw new \Exception("No View found");
+            }
+        } else {
+            if (file_exists(APP . "views/{$this->controller->name}/$_view.php")) {
+                include_once APP . "views/{$this->controller->name}/$_view.php";
+            } else {
+                throw new \Exception("No View found");
+            }
+        }
+
         $contentLayout = ob_get_contents();
         ob_end_clean();
         if (!empty($this->layout)) {

@@ -2,7 +2,6 @@
 
 namespace Flame;
 
-use String;
 
 class Http
 {
@@ -11,9 +10,9 @@ class Http
 
     public  $url;
     public  $method;
-    public $content;
+    public  $content;
     public  $header = array('Content-type: application/x-www-form-urlencoded');
-    public   $proxy;
+    public  $proxy;
     public  $requestFullUri = false;
     public  $followLocation = 1;
     public  $maxRedirect = 20;

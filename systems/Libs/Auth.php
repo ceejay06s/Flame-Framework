@@ -2,19 +2,24 @@
 
 namespace Flame;
 
+use Flame\Session;
+
 class Auth
 {
-    use Authorization;
-    protected $allowedActions = [];
+    public static $allowedActions = [];
     public $controller;
 
-    public function __construct()
-    {
-        //
-    }
+    public $Session;
 
-    public function allow($method, $class = $this->controller)
+    public function __construct($controller = null)
     {
-        //
+        $this->controller = $controller;
+        $this->Session = new Session;
+        self::$allowedActions = $this->Session->get('allowedAction');
+    }
+    public function allow($method)
+    {
+        $controller = $this->controller->name;
+        $this->Session->set('allowedAction', array("{$controller}:{$method}" => "{$controller}:{$method}"));
     }
 }

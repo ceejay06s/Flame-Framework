@@ -2,19 +2,20 @@
 
 namespace Flame;
 
+
 class Core
 {
     protected $controller = 'HomeController';
     protected $method = 'index';
     protected $params = [];
+
     public function __construct()
     {
         $this->parseUrl();
+
         $controllerPath = CONTROLLERS . $this->controller . '.php';
-
-
         if (file_exists($controllerPath)) {
-            include $controllerPath;
+            require_once $controllerPath;
             $this->controller = new $this->controller;
             if (method_exists($this->controller, $this->method)) {
                 call_user_func_array([$this->controller, $this->method], $this->params);
