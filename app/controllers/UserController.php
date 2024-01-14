@@ -5,20 +5,16 @@ use Flame\Controller\AppController;
 useLibrary('Authorization', 'libs', SYSTEM);
 class UserController extends AppController
 {
-    var $name = "User";
+    public $name = "User";
 
-    var $useModels = array();
-    function __construct()
-    {
-        parent::__construct();
+    public $useModels = array();
 
-        //$this->Auth->allow('index', 'register');
-    }
-    function login()
+    public function login()
     {
         $this->controller->data['test1'] = 'test';
         $this->loadModel('User');
         if ($this->User->login()) {
+            var_dump("test");
         }
     }
 }
