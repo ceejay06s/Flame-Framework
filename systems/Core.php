@@ -35,17 +35,22 @@ class Core
             $url = filter_var($url, FILTER_SANITIZE_URL);
             $url = trim($url);
             $url = explode('/', $url);
+
             $url['url']  = $url[0];
             if (isset($url[1], $url[2]))
                 $url['url'] = '/' . $url[1] . '/' . $url[2];
+
             require_once APP . "config/router.php";
-            if (array_key_exists($url['url'], $router->routes)) {
+
+            if (isset($router->routes[$url['url']])) {
                 $this->controller = $router->routes[$url['url']]['controller'];
                 $this->method = $router->routes[$url['url']]['action'];
                 $this->params = $router->routes[$url['url']]['params'];
-            } else {
-                $this->controller = !empty($url[0]) ? ucfirst($url[0]) . 'Controller' : 'HomeController';
-                $this->method = isset($url[1]) ? $url[1] : 'index';
+            }
+            //
+            else {
+                $this->controller = !empty($url[1]) ? ucfirst($url[1]) . 'Controller' : 'HomeController';
+                $this->method = isset($url[2]) ? $url[2] : 'index';
                 $this->params = array_slice($url, 3);
             }
         }
