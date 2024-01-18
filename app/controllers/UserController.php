@@ -32,5 +32,6 @@ class UserController extends AppController
 
     function register()
     {
+        $this->render('register', []);
     }
 }

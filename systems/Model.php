@@ -28,7 +28,6 @@ class Model
     public $statement;
     public $params;
     public $queryType;
-    //public $id;
     public $sort;
     public $limit;
     public $offset;
@@ -38,16 +37,17 @@ class Model
 
     public $fields = [];
     protected $mresult;
-    public $ArithmeticOperators = array('+', '-', '*', '/', '%');
-    public $BitwiseOperators = array('&', '|', '^', '~', '<<', '>>');
-    public $ComparisonOperators = array('=', '>', '<', '>=', '<=', '<>', '!=', 'IS', 'LIKE', 'REGEXP', 'IN', 'BETWEEN');
-    public $CompoundOperators = array('+=', '-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>=');
-    public $LogicalOperators = array('ALL', 'AND', 'ANY', 'BETWEEN', 'EXISTS', 'IN', 'LIKE', 'NOT', 'OR', 'SOME');
+    private $ArithmeticOperators = array('+', '-', '*', '/', '%');
+    private $BitwiseOperators = array('&', '|', '^', '~', '<<', '>>');
+    private $ComparisonOperators = array('=', '>', '<', '>=', '<=', '<>', '!=', 'IS', 'LIKE', 'REGEXP', 'IN', 'BETWEEN');
+    private $CompoundOperators = array('+=', '-=', '*=', '/=', '%=', '&=', '|=', '^=', '<<=', '>>=');
+    private $LogicalOperators = array('ALL', 'AND', 'ANY', 'BETWEEN', 'EXISTS', 'IN', 'LIKE', 'NOT', 'OR', 'SOME');
     public $controller;
     public $data;
+    private $fields_;
     public function __construct(&$controller = null)
     {
-        require_once APP . 'config/database.php';
+        include APP . 'config/database.php';
         $config = get_defined_vars()[$this->useSchema];
         $this->host = $config['host'];
         $this->type = $config['type'];
@@ -81,18 +81,23 @@ class Model
         $result = mysqli_query($this->connect, $this->statement);
         while ($r = mysqli_fetch_assoc($result)) {
             $this->{$r['Field']} = null;
+            $this->fields_[] = $r['Field'];
         }
         return  $this;
     }
 
     function create()
     {
-        $this->log(print_r($this, true));
+        //$this->log(print_r($this, true));
         return $this;
     }
 
     function save()
     {
+        $this->listFields();
+        $this->log($this->fields_, 'models');
+        $this->log(count($this->fields_), 'models');
+        $this->log(array_slice(get_object_vars($this), -count($this->fields_), count($this->fields_), true), 'models');
     }
 
     public function find($type, $args = ['fields' => [], 'conditions' => [], 'joins' => [], 'limit' => null, 'offset' => null, 'groupBy' => null,  'orderBy' => null])

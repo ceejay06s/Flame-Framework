@@ -44,25 +44,27 @@ trait Authorization
                 $_SESSION['Auth']['expire'] = time() + (10 * 365 * 24 * 60 * 60);
                 $_SESSION['Auth']['token'] = $this->hash(uniqid('_SES_'), 'SHA1');
                 $_SESSION['Auth'][$this->name] = $tmp[$this->name];
-                $this->remember_me($_SESSION);
+                $this->remember_me($_SESSION['Auth']);
                 return $_SESSION;
             }
         }
     }
 
     /**
-     * @param Type $var Description
-     * @return type
-     * @throws conditon
+     * @param Array $ses SESSION DATA
+     * @return Array
      **/
     public function remember_me($ses)
     {
         $this->controller->loadModel('Cookie');
         $cookies = $this->controller->Cookie;
         $cookies->create();
-
-        $cookies->id = 1;
-        var_dump($cookies);
+        $cookies->user_id = $ses[$this->name]['id'];
+        $cookies->token = $ses['token'];
+        $cookies->uptime = $ses['uptime'];
+        $cookies->expire_in = $ses['expire'];
+        $cookies->save();
+        var_dump(get_object_vars($cookies));
     }
 
 

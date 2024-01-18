@@ -59,7 +59,7 @@ class Controller
     public function render($view, $args = [])
     {
         $this->beforeRender();
-        $args = array_merge_recursive($this->sets, $args);
+        $args = array_merge_recursive((!empty($this->sets) ? $this->sets : array()), $args);
         $this->View->render($view, $args);
     }
 }

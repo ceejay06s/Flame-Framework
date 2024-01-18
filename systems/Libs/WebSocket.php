@@ -44,7 +44,7 @@ class WebSocket
         $this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 1);
         socket_bind($this->server, $this->address, $this->port);
-        socket_listen($this->server);
+        socket_listen($this->server, 5); //second parameter is number of connection
         echo "Server Initialized...\r\n
         ws://{$this->address}:{$this->port}\r\n
         Accepting new Client..." . PHP_EOL;
