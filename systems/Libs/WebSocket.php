@@ -42,9 +42,9 @@ class WebSocket
         if (isset($this->args['address'])) $this->address = $this->args['address'];
         if (isset($this->args['port'])) $this->port = $this->args['port'];
         $this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 1);
+        socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 100000);
         socket_bind($this->server, $this->address, $this->port);
-        socket_listen($this->server, 5); //second parameter is number of connection
+        socket_listen($this->server); //second parameter is number of connection
         echo "Server Initialized...\r\n
         ws://{$this->address}:{$this->port}\r\n
         Accepting new Client..." . PHP_EOL;
@@ -74,10 +74,10 @@ class WebSocket
             $response = chr(129) . chr(strlen($content)) . $content;
             socket_write($this->client, $response);
 
-            if ($read = socket_read($this->client, 50000)) {
-                $test2 = pack("s", $read);
-                var_dump("read", $read, $test2);
-            }
+            // if ($read = socket_read($this->client, 50000)) {
+            //     $test2 = pack("s", $read);
+            //     var_dump("read", $read, $test2);
+            // }
         }
     }
 }
