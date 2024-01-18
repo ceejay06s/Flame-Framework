@@ -42,7 +42,8 @@ class WebSocket
         if (isset($this->args['address'])) $this->address = $this->args['address'];
         if (isset($this->args['port'])) $this->port = $this->args['port'];
         $this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 100000);
+        socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, SO_SNDBUF);
+        socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, SO_RCVBUF);
         socket_bind($this->server, $this->address, $this->port);
         socket_listen($this->server); //second parameter is number of connection
         echo "Server Initialized...\r\n
