@@ -3,8 +3,6 @@
 
 namespace Flame;
 
-use stdClass;
-
 class WebSocketv2
 {
 
@@ -88,35 +86,43 @@ class WebSocketv2
                         $index = array_search($_servers, $read);
                         unset($read[$index]);
                     } else {
-                        $this->data = $this->unseal($buffer);
-                        if ($data = json_decode($this->data)) {
-                            $this->data = $data;
-                        }
-
-                        echo "CLIENT > " . print_r($this->data, true) . "\r\n";
-                        //var_dump($this->data);
-                        if (!empty($this->message)) {
-                            switch ($this->type) {
-                                case 0:
-                                    $this->brodcast($this->message);
-                                    break;
-                                case 1:
-                                    $this->send($_servers, $this->message);
-                                    break;
-                            }
-                        }
+                        $this->proccess($_servers, $buffer);
                     }
                 }
             }
         }
     }
-    function proccess($read)
+    function proccess($_servers, $buffer)
     {
-        var_dump($read);
-        // foreach ($this->client as $client) {
-        //     var_dump($read);
-        // }
-        return;
+        $timestamp = date('Y-m-d H:i:s');
+        $this->data = $this->unseal($buffer);
+        if ($data = json_decode($this->data)) {
+            $this->data = $data;
+        }
+
+        echo "[$timestamp] CLIENT > " . print_r($this->data, true) . "\r\n";
+        if (!empty($this->message)) {
+            switch ($this->type) {
+                case 0:
+                    $this->brodcast($this->message);
+                    break;
+                case 1:
+                    $this->send($_servers, $this->message);
+                    break;
+                default:
+                    $this->brodcast($this->message);
+            }
+        }
+    }
+    function onReceive()
+    {
+        $this->onMessage();
+        var_dump($this->data);
+        return true;
+    }
+
+    function onMessage()
+    {
     }
     function brodcast($message)
     {
@@ -196,3 +202,7 @@ class WebSocketv2
 $socket = new WebSocketv2;
 $socket->__init__();
 $socket->start();
+
+while (true) {
+    $socket->onReceive();
+}
