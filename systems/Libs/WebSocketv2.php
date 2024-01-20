@@ -3,10 +3,12 @@
 
 namespace Flame;
 
-class WebSocket
+use stdClass;
+
+class WebSocketv2
 {
 
-    public $address = 0;
+    public $address = '0.0.0.0';
     public $port = 10000;
 
     public $server;
@@ -46,31 +48,35 @@ class WebSocket
 
     function start()
     {
+        $timestamp = date('Y-m-d H:i:s');
         ob_implicit_flush();
+        echo "[$timestamp] SERVER > Initializing, Please Wait...\r\n";
         $this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 1);
         socket_bind($this->server, $this->address, $this->port);
         socket_listen($this->server);
-        echo "Server Initialized...\r\n";
-        echo "ws://{$this->address}:{$this->port}\r\n";
+        echo "[$timestamp] SERVER > Server Initialized...\r\n";
+        echo "[$timestamp] SERVER > Server Address : ws://{$this->address}:{$this->port}\r\n";
         $this->_servers[(int) $this->server] = $this->server;
         while (true) {
 
+            sleep(1);
             $read = $this->_servers;
             $write = $except = null;
-            echo "Accepting new Client...\r\n";
-            socket_select($read, $write, $except, 1);
+            echo "[$timestamp] SERVER > Accepting new Client...\r\n";
+            socket_select($read, $write, $except, 0, 10);
             foreach ($read as $_servers) {
                 if ($_servers == $this->server) {
                     $client = socket_accept($this->server);
                     if ($client < 0) {
-                        var_dump("Failed: socket_accept()");
+                        echo "[$timestamp] SERVER > Failed: socket_accept() \r\n";
                         continue;
                     }
                     $this->_servers[(int)$client] = $client;
                     $this->handshake($client);
                     socket_getpeername($client, $ip);
-                    echo "Accepted new Client IP: {$ip}...\r\n";
+                    // $this->_servers[(int)$client]['ip'] = $ip;
+                    echo "[$timestamp] SERVER > Accepted new Client with IP: {$ip}...\r\n";
                     $resp = $this->ack($ip);
                     $this->brodcast($resp);
                 } else {
@@ -83,7 +89,12 @@ class WebSocket
                         unset($read[$index]);
                     } else {
                         $this->data = $this->unseal($buffer);
+                        if ($data = json_decode($this->data)) {
+                            $this->data = $data;
+                        }
 
+                        echo "CLIENT > " . print_r($this->data, true) . "\r\n";
+                        //var_dump($this->data);
                         if (!empty($this->message)) {
                             switch ($this->type) {
                                 case 0:
@@ -97,8 +108,6 @@ class WebSocket
                     }
                 }
             }
-
-            sleep(1);
         }
     }
     function proccess($read)
@@ -184,6 +193,6 @@ class WebSocket
     }
 }
 
-$socket = new WebSocket;
+$socket = new WebSocketv2;
 $socket->__init__();
 $socket->start();
