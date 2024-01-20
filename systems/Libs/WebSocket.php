@@ -3,7 +3,7 @@
 
 namespace Flame;
 
-class WebSocketv2
+class WebSocket
 {
 
     public $address = '0.0.0.0';
@@ -118,7 +118,7 @@ class WebSocketv2
     {
         $this->onMessage();
         var_dump($this->data);
-        return true;
+        return $this->data;
     }
 
     function onMessage()
@@ -197,12 +197,4 @@ class WebSocketv2
             $header = pack('CCNN', $b1, 127, $length);
         return $header . $socketData;
     }
-}
-
-$socket = new WebSocketv2;
-$socket->__init__();
-$socket->start();
-
-while (true) {
-    $socket->onReceive();
 }
