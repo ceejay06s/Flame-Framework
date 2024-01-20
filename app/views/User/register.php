@@ -12,13 +12,22 @@
     <button onclick="send()">test</button>
 </body>
 <script>
-    var host = 'ws://localhost:20000/WebSocket.php';
-    var socket = new WebSocket(host);
-    socket.onmessage = function(e) {
+    var socket = null;
+    document.addEventListener('load', connect());
+
+    function connect() {
+        var host = 'ws://localhost:10000';
+        socket = new WebSocket(host);
+    }
+
+    socket.addEventListener('message', function(e) {
         console.log(e);
         document.getElementById('root').innerHTML = e.data;
-    };
+    });
 
+    socket.close = function(e) {
+        setTimeout(connect(), 1000);
+    }
 
     function send() {
         socket.send("test1234");
