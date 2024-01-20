@@ -74,7 +74,9 @@ class WebSocket
             $content = 'Now: ' . time();
             $response = chr(129) . chr(strlen($content)) . $content;
             socket_write($this->client, $response);
-
+            var_dump(
+                stream_socket_recvfrom($this->server, 9, STREAM_PEEK)
+            );
             // if ($read = socket_read($this->client, 50000)) {
             //     $test2 = pack("s", $read);
             //     var_dump("read", $read, $test2);
