@@ -47,7 +47,6 @@ class WebSocket
     function start()
     {
         $timestamp = date('Y-m-d H:i:s');
-        ob_implicit_flush();
         echo "[$timestamp] SERVER > Initializing, Please Wait...\r\n";
         $this->server = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         socket_set_option($this->server, SOL_SOCKET, SO_REUSEADDR, 1);
