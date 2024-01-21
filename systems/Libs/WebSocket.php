@@ -100,13 +100,13 @@ class WebSocket
         if ($data = json_decode($this->data)) {
             $this->data = $data;
         }
-
+        $this->onReceive();
         echo "[$timestamp] CLIENT > " . print_r($this->data, true) . "\r\n";
         }
     }
     function onReceive()
     {
-        var_dump($this->data);
+        //var_dump($this->data);
         return $this->data;
     }
 
