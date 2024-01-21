@@ -73,19 +73,21 @@ class WebSocket
                     $this->_servers[(int)$client] = $client;
                     $this->handshake($client);
                     socket_getpeername($client, $ip);
-                    // $this->_servers[(int)$client]['ip'] = $ip;
                     echo "[$timestamp] SERVER > Accepted new Client with IP: {$ip}...\r\n";
                     $resp = $this->ack($ip);
                     $this->brodcast($resp);
                 } else {
                     $bytes = @socket_recv($_servers, $buffer, 2048, 0);
-                    if ($bytes == 0 || $bytes == false) {
+                    if ($bytes == 0) {
                         socket_getpeername($_servers, $ip);
                         $connection = $this->ack($ip, 2);
                         $this->brodcast($connection);
                         $index = array_search($_servers, $read);
                         unset($read[$index]);
-                    } else {
+                        socket_close($_servers);
+                    } 
+                    elseif(!$bytes) continue;
+                    else {
                         $this->proccess($_servers, $buffer);
                     }
                 }
@@ -134,11 +136,8 @@ class WebSocket
     }
     function send($client, $message)
     {
-        // global $clientSocketArray;
         $messageLength = strlen($message);
-        // foreach ($clientSocketArray as $clientSocket) {
         @socket_write($client, $message, $messageLength);
-        //}
         return true;
     }
     function ack($ip, $type = 1)
