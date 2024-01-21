@@ -64,12 +64,12 @@ class WebSocket
             socket_select($read, $write, $except, 0, 10);
             foreach ($read as $_servers) {
                 if ($_servers == $this->server) {
-                    $client = socket_accept($this->server);
-                    if ($client < 0) {
+                    $this->client = socket_accept($this->server);
+                    if ($this->client < 0) {
                         echo "[$timestamp] SERVER > Failed: socket_accept() \r\n";
                         continue;
                     }
-                    $this->_servers[(int)$client] = $client;
+                    $this->_servers[(int)$this->client] = $this->client;
                     $this->handshake($client);
                     socket_getpeername($client, $ip);
                     echo "[$timestamp] SERVER > Accepted new Client with IP: {$ip}...\r\n";
@@ -77,7 +77,7 @@ class WebSocket
                     $this->brodcast($resp);
                 } else {
                     $bytes = @socket_recv($_servers, $buffer, 2048, 0);
-                    if ($bytes == 0) {
+                    if (in_array($bytes,[0,8]) {
                         socket_getpeername($_servers, $ip);
                         $connection = $this->ack($ip, 2);
                         $this->brodcast($connection);
@@ -85,10 +85,10 @@ class WebSocket
                         unset($read[$index]);
                         socket_close($_servers);
                     } 
-                    elseif(!$bytes) continue;
                     else {
                         $this->proccess($_servers, $buffer);
                     }
+                $this->onMessage($_servers);
                 }
             }
         }
@@ -102,6 +102,17 @@ class WebSocket
         }
 
         echo "[$timestamp] CLIENT > " . print_r($this->data, true) . "\r\n";
+        }
+    }
+    function onReceive()
+    {
+        var_dump($this->data);
+        return $this->data;
+    }
+
+    function onMessage($_servers = null)
+    {
+        $_servers =(!empty($_servers)) ? $_servers : $this->client;
         if (!empty($this->message)) {
             switch ($this->type) {
                 case 0:
@@ -113,18 +124,8 @@ class WebSocket
                 default:
                     $this->brodcast($this->message);
             }
-        }
-    }
-    function onReceive()
-    {
-        $this->onMessage();
-        var_dump($this->data);
-        return $this->data;
     }
 
-    function onMessage()
-    {
-    }
     function brodcast($message)
     {
 
