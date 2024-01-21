@@ -70,8 +70,8 @@ class WebSocket
                         continue;
                     }
                     $this->_servers[(int)$this->client] = $this->client;
-                    $this->handshake($client);
-                    socket_getpeername($client, $ip);
+                    $this->handshake($this->client);
+                    socket_getpeername($this->client, $ip);
                     echo "[$timestamp] SERVER > Accepted new Client with IP: {$ip}...\r\n";
                     $resp = $this->ack($ip);
                     $this->brodcast($resp);
