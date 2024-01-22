@@ -35,5 +35,8 @@ Added Support
 - Firebase : (plan)
 - jQuery
 <div style="vertical-align="middle">
-<img style="width: 50px" src="public/download.png"/>Written by: Christian Balais
+<img style="width: 50px" src="public/download.png"/>
+  <span>
+  Written by: Christian Balais
+</span>
 </div>
