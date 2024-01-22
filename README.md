@@ -34,11 +34,11 @@ Added Support
 - Angular : (plan)
 - Firebase : (plan)
 - jQuery
-<div style="display:flex; flex-direction:column;">
-<div>
-  <img style="width: 50px" src="public/download.png"/>
-</div>
-<div>
-  Written by: Christian Balais
-</div>
+<div style="display:flex ! important; flex-direction:column ! important;">
+  <div>
+     <img style="width: 50px" src="public/download.png"/>
+     </div>
+     <div>
+       Written by: Christian Balais
+     </div>
 </div>
