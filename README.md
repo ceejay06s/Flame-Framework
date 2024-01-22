@@ -8,7 +8,8 @@ Routing & Streaming
 
 Authentication 
 - Secure Basic Auth : crypted password and session 
-
+- Oauth : (plan)
+- JTW : (plan)
 Database
 - MySQL : currently the only database supported
 - MSSQL : (plan)
