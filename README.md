@@ -35,8 +35,10 @@ Added Support
 - Firebase : (plan)
 - jQuery
 <div style="display:flex;">
-<img style="width: 50px" src="public/download.png"/>
-  <span>
+<div>
+  <img style="width: 50px" src="public/download.png"/>
+</div>
+<div>
   Written by: Christian Balais
-</span>
+</div>
 </div>
