@@ -34,5 +34,12 @@ Added Support
 - Angular : (plan)
 - Firebase : (plan)
 - jQuery
+<p style="
+  position:relative;
+  isolation:isolate;
+  display:flex;
+  flex-direction:column;
+  ">
+  <img style="width:2rem" src="public/download.png" alt="php"/><i>Written by: Christian Balais</i>
+</p>
 
-<img style="width:2rem" src="public/download.png" alt="php"/><i>Written by: Christian Balais</i>
