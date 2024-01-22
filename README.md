@@ -1,10 +1,6 @@
 <img src="/public/OIG4-removebg.png"/>
 <h1>Flame Framework</h1>
-<style>
-  img[alt="php"]{
-    width:1rem;
-  }
-</style>
+
 a Simple MVC Framework ligthweight
 
 Routing & Streaming
@@ -39,5 +35,5 @@ Added Support
 - Firebase : (plan)
 - jQuery
 
-<img src="public/download.png" alt="php">
+<img style="width:2rem" src="public/download.png" alt="php">
 Written by: Christian Balais
