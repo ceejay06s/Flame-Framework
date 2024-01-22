@@ -37,7 +37,7 @@ Added Support
   
 <div style="vertical-align:middle;"> 
      <img style="width: 50px; display:inline;" src="public/download.png"/>     
-     <span style="display:inline;">
+     <span style="display:inline; height: inherit;">
        Written by: Christian Balais
      </span>
 </div>
