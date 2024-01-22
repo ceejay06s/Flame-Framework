@@ -2,7 +2,6 @@
 
 a Simple MVC Framework ligthweight
 
-
 Routing & Streaming
 - Filebase routing and Defined routing
 - Inbuilt Http Stream Request
@@ -12,11 +11,21 @@ Authentication
 
 Database
 - MySQL : currently the only database supported
-
+- MSSQL : (plan)
+  
 Email Option
 - Native
 - SendMail
 - PhpMailer
+- curl : (plan)
 
 Included support for Console
 - Websocket
+- Cronjob
+  
+Added Support
+- Htmx : for inline Ajax Request
+- React : (plan)
+- Vue : (plan)
+- Angular : (plan)
+- Firebase : (plan)
