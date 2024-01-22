@@ -34,11 +34,11 @@ Added Support
 - Angular : (plan)
 - Firebase : (plan)
 - jQuery
-<div style="display:flex ! important; flex-direction:column ! important;">
-  <span style="display:inline;width:max-content">
+<div style="vertical-align:middle;">
+  <span style="">
      <img style="width: 50px" src="public/download.png"/>
      </span>
-     <span style="display:inline;width:max-content">
+     <span style="">
        Written by: Christian Balais
      </span>
 </div>
