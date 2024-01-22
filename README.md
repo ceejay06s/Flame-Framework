@@ -34,11 +34,11 @@ Added Support
 - Angular : (plan)
 - Firebase : (plan)
 - jQuery
-<div style="vertical-align:middle;">
-  <span style="">
-     <img style="width: 50px" src="public/download.png"/>
-     </span>
-     <span style="">
+<pre style="vertical-align:middle;">
+  
+     <img style="width: 50px: display:inline;" src="public/download.png"/>
+     
+     <code style="display:inline;">
        Written by: Christian Balais
-     </span>
-</div>
+     </code>
+</pre>
