@@ -33,6 +33,6 @@ Added Support
 - Vue : (plan)
 - Angular : (plan)
 - Firebase : (plan)
+- jQuery
 
-
-<img style="width: 50px" src="public/download.png"/>
+<img style="width: 50px" src="public/download.png"/>Written by: Christian Balais
