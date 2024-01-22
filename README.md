@@ -34,6 +34,6 @@ Added Support
 - Angular : (plan)
 - Firebase : (plan)
 - jQuery
-<div style="v-align="middle">
+<div style="vertical-align="middle">
 <img style="width: 50px" src="public/download.png"/>Written by: Christian Balais
 </div>
