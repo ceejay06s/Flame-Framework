@@ -34,7 +34,7 @@ Added Support
 - Angular : (plan)
 - Firebase : (plan)
 - jQuery
-<div style="display:flex;">
+<div style="display:flex; flex:column;">
 <div>
   <img style="width: 50px" src="public/download.png"/>
 </div>
