@@ -39,6 +39,7 @@ Added Support
   isolation:isolate;
   display:flex;
   flex-direction:column;
+  vertical-align:middle;
   ">
   <img style="width:2rem" src="public/download.png" alt="php"/><i>Written by: Christian Balais</i>
 </p>
