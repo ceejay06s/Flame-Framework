@@ -1,7 +1,7 @@
 <img src="/public/OIG4-removebg.png"/>
 <h1>Flame Framework</h1>
 <style>
-  img[alt="public/download.png"]{
+  img[alt="php"]{
     width:20px:
   }
 </style>
@@ -39,5 +39,5 @@ Added Support
 - Firebase : (plan)
 - jQuery
 
-![public/download.png](public/download.png)
+<img src="public/download.png" alt="php">
 Written by: Christian Balais
