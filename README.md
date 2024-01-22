@@ -35,5 +35,4 @@ Added Support
 - Firebase : (plan)
 - jQuery
 
-<img style="width:2rem" src="public/download.png" alt="php">
-Written by: Christian Balais
+<img style="width:2rem" src="public/download.png" alt="php"/><i>Written by: Christian Balais</i>
