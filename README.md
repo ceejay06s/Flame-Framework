@@ -36,7 +36,7 @@ Added Support
 - jQuery
   
 <div style="vertical-align:middle;"> 
-     <img style="width: 50px: display:inline;" src="public/download.png"/>     
+     <img style="width: 50px; display:inline;" src="public/download.png"/>     
      <span style="display:inline;">
        Written by: Christian Balais
      </span>
