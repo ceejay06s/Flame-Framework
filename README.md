@@ -2,7 +2,7 @@
 <h1>Flame Framework</h1>
 <style>
   img[alt="php"]{
-    width:20px:
+    width:20px;
   }
 </style>
 a Simple MVC Framework ligthweight
