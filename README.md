@@ -35,10 +35,10 @@ Added Support
 - Firebase : (plan)
 - jQuery
 <div style="display:flex ! important; flex-direction:column ! important;">
-  <div style="display:inline;width:max-content">
+  <span style="display:inline;width:max-content">
      <img style="width: 50px" src="public/download.png"/>
-     </div>
-     <div style="display:inline;width:max-content">
+     </span>
+     <span style="display:inline;width:max-content">
        Written by: Christian Balais
-     </div>
+     </span>
 </div>
