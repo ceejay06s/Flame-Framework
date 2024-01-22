@@ -12,7 +12,8 @@ Authentication
 Database
 - MySQL : currently the only database supported
 - MSSQL : (plan)
-  
+- PosgeSQL : (plan)
+
 Email Option
 - Native
 - SendMail
@@ -21,7 +22,7 @@ Email Option
 
 Included support for Console
 - Websocket
-- Cronjob
+- Cronjob : (plan)
   
 Added Support
 - Htmx : for inline Ajax Request
