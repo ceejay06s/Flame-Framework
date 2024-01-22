@@ -11,6 +11,7 @@ Authentication
 - Secure Basic Auth : crypted password and session 
 - Oauth : (plan)
 - JTW : (plan)
+
 Database
 - MySQL : currently the only database supported
 - MSSQL : (plan)
@@ -34,4 +35,4 @@ Added Support
 - Firebase : (plan)
 
 
-<img style="width: 2.5rem" src="public/download.png"/>
+<img style="width: 50px" src="public/download.png"/>
