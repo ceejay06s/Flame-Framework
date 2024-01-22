@@ -34,4 +34,4 @@ Added Support
 - Firebase : (plan)
 
 
-<img src="https://www.bing.com/images/create/create-an-transparent-icon-of-a-blue-flame-for-a-p/1-65ae6bfb3ed34c6a8d8accd9488cb65d?id=xYCaX0rhN6UxxnSH2Oa7%2bA%3d%3d&view=detailv2&idpp=genimg&FORM=GCRIDP"/>
+<img style="width: 2.5rem" src="public/download.png"/>
