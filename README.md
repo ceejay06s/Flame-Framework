@@ -1,6 +1,10 @@
 <img src="/public/OIG4-removebg.png"/>
 <h1>Flame Framework</h1>
-
+<style>
+  img[alt="public/download.png"]{
+    width:20px:
+  }
+</style>
 a Simple MVC Framework ligthweight
 
 Routing & Streaming
