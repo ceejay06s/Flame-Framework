@@ -42,6 +42,6 @@ Added Support
   vertical-align:middle;
   ">
   <img style="width:2rem" src="public/download.png" alt="php"/>
-  <i style="padding: 0.5rem">Written by: Christian Balais</i>
+  <i style="padding: 1rem;">Written by: Christian Balais</i>
 </p>
 
