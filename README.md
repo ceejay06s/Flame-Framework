@@ -41,7 +41,7 @@ Added Support
   flex-direction:column;
   vertical-align:middle;
   ">
-  <img style="width:2rem" src="public/download.png" alt="php"/>
+  <img style="width:2rem; vertical-align: middle;" src="public/download.png" alt="php"/>
   <i style="padding: 5px;">Written by: Christian Balais</i>
 </p>
 
