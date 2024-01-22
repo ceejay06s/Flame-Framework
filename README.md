@@ -34,14 +34,8 @@ Added Support
 - Angular : (plan)
 - Firebase : (plan)
 - jQuery
-<p style="
-  position:relative;
-  isolation:isolate;
-  display:flex;
-  flex-direction:column;
-  vertical-align:middle;
-  ">
-  <img style="width:2rem; vertical-align: middle;" src="public/download.png" alt="php"/>
+<p style="">
+  <img style="width:2rem; vertical-align: baseline;" src="public/download.png" alt="php"/>
   <i style="padding: 5px;">Written by: Christian Balais</i>
 </p>
 
