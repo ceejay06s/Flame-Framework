@@ -3,7 +3,7 @@
 
 namespace Flame;
 
-class WebSocket extends Object
+class WebSocket
 {
 
     public $address = '0.0.0.0';
