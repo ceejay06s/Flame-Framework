@@ -3,7 +3,7 @@
 
 namespace Flame;
 
-class WebSocket
+class WebSocket extends Object
 {
 
     public $address = '0.0.0.0';
@@ -77,18 +77,17 @@ class WebSocket
                     $this->brodcast($resp);
                 } else {
                     $bytes = @socket_recv($_servers, $buffer, 2048, 0);
-                    if (in_array($bytes,[0,8]) {
+                    if (in_array($bytes, [0, 8])) {
                         socket_getpeername($_servers, $ip);
                         $connection = $this->ack($ip, 2);
                         $this->brodcast($connection);
                         $index = array_search($_servers, $read);
                         unset($read[$index]);
                         socket_close($_servers);
-                    } 
-                    else {
+                    } else {
                         $this->proccess($_servers, $buffer);
                     }
-                $this->onMessage($_servers);
+                    $this->onMessage($_servers);
                 }
             }
         }
@@ -102,8 +101,8 @@ class WebSocket
         }
         $this->onReceive();
         echo "[$timestamp] CLIENT > " . print_r($this->data, true) . "\r\n";
-        }
     }
+
     function onReceive()
     {
         //var_dump($this->data);
@@ -112,7 +111,7 @@ class WebSocket
 
     function onMessage($_servers = null)
     {
-        $_servers =(!empty($_servers)) ? $_servers : $this->client;
+        $_servers = (!empty($_servers)) ? $_servers : $this->client;
         if (!empty($this->message)) {
             switch ($this->type) {
                 case 0:
@@ -124,8 +123,8 @@ class WebSocket
                 default:
                     $this->brodcast($this->message);
             }
+        }
     }
-
     function brodcast($message)
     {
 
