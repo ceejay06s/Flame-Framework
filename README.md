@@ -1,4 +1,4 @@
-<img src="/public/OIG4-removebg.png"/>
+<img style="text-align:center;" src="/public/OIG4-removebg.png"/>
 <h1>Flame Framework</h1>
 
 a Simple MVC Framework ligthweight
