@@ -1,5 +1,5 @@
 <div style="text-align:center;">
-  <img src="/public/OIG4-removebg.png"/>
+  <img src="/public/images/OIG4-removebg.png"/>
   <h1>Flame Framework</h1>
 </div>
 
@@ -37,7 +37,7 @@ Added Support
 - Firebase : (plan)
 - jQuery
 <p style="">
-  <img style="width:2rem; vertical-align: text-top;" src="public/download.png" alt="php"/>
+  <img style="width:2rem; vertical-align: text-top;" src="public/images/download.png" alt="php"/>
   <i style="padding: 5px;">Written by: Christian Balais</i>
 </p>
 
