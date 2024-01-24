@@ -1,11 +1,9 @@
 <?php
 
-
 namespace Flame;
 
 class WebSocket
 {
-
     public $address = '0.0.0.0';
     public $port = 10000;
 
@@ -13,6 +11,7 @@ class WebSocket
     public $args;
     public $client;
     private $_servers;
+    private $read;
 
     public $data;
     public $message = null;
@@ -76,7 +75,8 @@ class WebSocket
                     $resp = $this->ack($ip);
                     $this->brodcast($resp);
                 } else {
-                    $bytes = @socket_recv($_servers, $buffer, 2048, 0);
+
+                    ($bytes = @socket_recv($_servers, $buffer, 50000, 0));
                     if (in_array($bytes, [0, 8])) {
                         socket_getpeername($_servers, $ip);
                         $connection = $this->ack($ip, 2);
@@ -86,26 +86,30 @@ class WebSocket
                         socket_close($_servers);
                     } else {
                         $this->proccess($_servers, $buffer);
+                        $this->onMessage();
                     }
-                    $this->onMessage($_servers);
+                    //$this->read = $read;
                 }
             }
         }
     }
-    function proccess($_servers, $buffer)
+    function proccess($_servers = null, $buffer)
     {
         $timestamp = date('Y-m-d H:i:s');
-        $this->data = $this->unseal($buffer);
+        $_servers = (!empty($_servers)) ? $_servers : $this->client;
+
+        $this->data = $this->unmask($buffer);
         if ($data = json_decode($this->data)) {
             $this->data = $data;
         }
-        $this->onReceive();
+        $this->onReceive($_servers);
         echo "[$timestamp] CLIENT > " . print_r($this->data, true) . "\r\n";
     }
 
-    function onReceive()
+    function onReceive($_servers = null)
     {
-        //var_dump($this->data);
+        $_servers = (!empty($_servers)) ? $_servers : $this->client;
+        $this->message = "test1234";
         return $this->data;
     }
 
@@ -125,6 +129,7 @@ class WebSocket
                 default:
                     $this->brodcast($this->message);
             }
+        }
     }
     function brodcast($message)
     {
@@ -145,7 +150,7 @@ class WebSocket
         $message = 'New client ' . $ip . ' joined';
         if ($type == 2)  $message = 'client ' . $ip . ' Disconneted';
         $messageArray = array('message' => $message, 'message_type' => 'ACK');
-        $ACK = $this->seal(json_encode($messageArray));
+        $ACK = $this->mask(json_encode($messageArray));
         return $ACK;
     }
     function handshake($client)
@@ -164,29 +169,30 @@ class WebSocket
         $headers .= "Sec-WebSocket-Accept: $key\r\n\r\n";
         socket_write($client, $headers, strlen($headers));
     }
-    function unseal($socketData)
+    function unmask($text)
     {
-        $length = ord($socketData[1]) & 127;
+        $length = ord($text[1]) & 127;
         if ($length == 126) {
-            $masks = substr($socketData, 4, 4);
-            $data = substr($socketData, 8);
+            $masks = substr($text, 4, 4);
+            $data = substr($text, 8);
         } elseif ($length == 127) {
-            $masks = substr($socketData, 10, 4);
-            $data = substr($socketData, 14);
+            $masks = substr($text, 10, 4);
+            $data = substr($text, 14);
         } else {
-            $masks = substr($socketData, 2, 4);
-            $data = substr($socketData, 6);
+            $masks = substr($text, 2, 4);
+            $data = substr($text, 6);
         }
-        $socketData = "";
+        $text = "";
         for ($i = 0; $i < strlen($data); ++$i) {
-            $socketData .= $data[$i] ^ $masks[$i % 4];
+            $text .= $data[$i] ^ $masks[$i % 4];
         }
-        return $socketData;
+        return $text;
     }
-    function seal($socketData)
+
+    function mask($text)
     {
         $b1 = 0x80 | (0x1 & 0x0f);
-        $length = strlen($socketData);
+        $length = strlen($text);
 
         if ($length <= 125)
             $header = pack('CC', $b1, $length);
@@ -194,6 +200,6 @@ class WebSocket
             $header = pack('CCn', $b1, 126, $length);
         elseif ($length >= 65536)
             $header = pack('CCNN', $b1, 127, $length);
-        return $header . $socketData;
+        return $header . $text;
     }
 }
