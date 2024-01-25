@@ -38,6 +38,6 @@ Added Support
 - jQuery
 <p style="">
   <img style="width:2rem; vertical-align: middle !important; " src="https://github.com/ceejay06s/Flame-Framework/raw/main/public/images/download.png" alt="php"/>
-  <i style="padding: 5px; line-height: 200%;">Written by: Christian Balais</i>
+  <div style="padding: 5px; line-height: 200%; display:inline">Written by: Christian Balais</div>
 </p>
 
