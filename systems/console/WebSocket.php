@@ -109,7 +109,7 @@ class WebSocket
     function onReceive($_servers = null)
     {
         $_servers = (!empty($_servers)) ? $_servers : $this->client;
-        $this->message = "test1234";
+
         return $this->data;
     }
 
