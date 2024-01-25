@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>fake sendmail for windows</title></head>-->
 <body bgcolor="#ffffff" link="#1084d0" text="#555555" vlink="#1084d0">
-<style>
+<!-- <style>
   body {
     background-color: #ffffff;
   }
@@ -23,7 +23,7 @@
   a {
     text-decoration: none;
   }
-</style>
+</style> -->
 <pre><span class="head">fake sendmail for bugzilla/windows</span>
 
   glob.com.au/sendmail
