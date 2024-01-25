@@ -1,6 +1,5 @@
 <?php
 
-use Flame\Session;
 
 define('DS', DIRECTORY_SEPARATOR);
 define("ROOT", dirname(__DIR__) . DS);
@@ -11,7 +10,12 @@ define("CONTROLLERS", APP . 'controllers' . DS);
 include_once APP . 'vendor/autoload.php';
 
 $config = function ($conf, $value) {
-    $GLOBALS[$conf] = $value;
+    if (strstr($conf, 'ini__')) {
+        //
+        $conf = trim($conf, 'ini__');
+        ini_set($conf, $value);
+    } else
+        $GLOBALS[$conf] = $value;
 };
 
 
@@ -23,8 +27,8 @@ function useLibrary($lib, $dir = 'libs', $path = SYSTEM)
     require_once $path . $dir . DS . $lib . '.php';
 };
 
-useLibrary('Session');
-$session = new Session();
+// useLibrary('Session');
+// $session = new Flame\Session();
 
 require_once APP . 'config/core.php';
 require_once SYSTEM . 'libs\Inflector.php';

@@ -232,6 +232,7 @@ class Mail
 
     function getSendMail()
     {
+
         $sendmail_path = ini_get('sendmail_path');
         list($sendmail_path) = explode(' ', $sendmail_path);
         $this->mail_path = $sendmail_path . '.ini';
