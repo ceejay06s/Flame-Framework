@@ -115,7 +115,6 @@ class WebSocket
 
     function onMessage($_servers = null)
     {
-        $this->message = 'test';
         $_servers = (!empty($_servers)) ? $_servers : $this->client;
         if (!empty($this->message)) {
             $this->message = $this->mask($this->message);
