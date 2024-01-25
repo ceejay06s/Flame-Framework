@@ -37,7 +37,7 @@ Added Support
 - Firebase : (plan)
 - jQuery
 <p style="">
-  <img style="width:2rem; vertical-align: middle !important; " src="/public/images/download.png" alt="php"/>
+  <img style="width:2rem; vertical-align: middle !important; " src="https://github.com/ceejay06s/Flame-Framework/raw/main/public/images/download.png" alt="php"/>
   <i style="padding: 5px;">Written by: Christian Balais</i>
 </p>
 
