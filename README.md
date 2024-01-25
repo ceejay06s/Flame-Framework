@@ -1,4 +1,4 @@
-<div style="text-align:center;">
+<div align='center' style="text-align:center;">
   <img src="/public/images/OIG4-removebg.png"/>
   <h1>Flame Framework</h1>
 </div>
