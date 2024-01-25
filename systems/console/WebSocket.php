@@ -11,7 +11,7 @@ class WebSocket
     public $args;
     public $client;
     private $_servers;
-    //private $read;
+    private $read;
 
     public $data;
     public $message = null;
@@ -85,37 +85,35 @@ class WebSocket
                         unset($read[$index]);
                         socket_close($_servers);
                     } else {
-                        $this->proccess($_servers, $buffer);
+                        $this->proccess($buffer, $_servers);
                         $this->onMessage();
                     }
-                    //$this->read = $read;
                 }
             }
         }
     }
-    function proccess($_servers = null, $buffer)
+    function proccess($buffer, $_servers = null)
     {
         $timestamp = date('Y-m-d H:i:s');
-        $_servers = (!empty($_servers)) ? $_servers : $this->client;
+        $this->read = (null !== func_get_arg(0)) ? func_get_arg(0) : $this->client;
 
         $this->data = $this->unmask($buffer);
         if ($data = json_decode($this->data)) {
             $this->data = $data;
         }
-        $this->onReceive($_servers);
+        $this->onReceive($this->read);
         echo "[$timestamp] CLIENT > " . print_r($this->data, true) . "\r\n";
     }
 
-    function onReceive($_servers = null)
+    function onReceive()
     {
-        $_servers = (!empty($_servers)) ? $_servers : $this->client;
-
+        $this->read = (null !== func_get_arg(0)) ? func_get_arg(0) : $this->client;
         return $this->data;
     }
 
-    function onMessage($_servers = null)
+    function onMessage()
     {
-        $_servers = (!empty($_servers)) ? $_servers : $this->client;
+        $this->read = (null !== func_get_arg(0)) ? func_get_arg(0) : $this->client;
         if (!empty($this->message)) {
             $this->message = $this->mask($this->message);
             switch ($this->type) {
@@ -123,7 +121,7 @@ class WebSocket
                     $this->brodcast($this->message);
                     break;
                 case 1:
-                    $this->send($_servers, $this->message);
+                    $this->send($this->read, $this->message);
                     break;
                 default:
                     $this->brodcast($this->message);
