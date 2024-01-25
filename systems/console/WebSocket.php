@@ -11,7 +11,7 @@ class WebSocket
     public $args;
     public $client;
     private $_servers;
-    private $read;
+    //private $read;
 
     public $data;
     public $message = null;
@@ -132,7 +132,6 @@ class WebSocket
     }
     function brodcast($message)
     {
-
         $messageLength = strlen($message);
         foreach ($this->_servers as $client) {
             @socket_write($client, $message, $messageLength);
