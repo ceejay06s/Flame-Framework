@@ -1,0 +1,119 @@
+24/01/13 12:06:12 ** --- MESSAGE BEGIN ---
+24/01/13 12:06:12 ** To: christianbalaisvi@gmail.com
+24/01/13 12:06:12 ** Subject: test
+24/01/13 12:06:12 ** FROM: christianbalais06@gmail.com
+24/01/13 12:06:12 ** 
+24/01/13 12:06:12 ** test
+24/01/13 12:06:12 ** --- MESSAGE END ---
+24/01/13 12:06:12 ** Connecting to sandbox.smtp.mailtrap.io:25
+24/01/13 12:06:25 ** Disconnected.
+24/01/13 12:06:25 ** Disconnected.
+24/01/13 12:06:25 ** Disconnected.
+24/01/13 12:06:25 ** Disconnected.
+24/01/13 12:06:25 ** Connect timed out.
+24/01/13 12:07:09 ** --- MESSAGE BEGIN ---
+24/01/13 12:07:09 ** To: christianbalaisvi@gmail.com
+24/01/13 12:07:09 ** Subject: test
+24/01/13 12:07:09 ** FROM: christianbalais06@gmail.com
+24/01/13 12:07:09 ** 
+24/01/13 12:07:09 ** test
+24/01/13 12:07:09 ** --- MESSAGE END ---
+24/01/13 12:07:10 ** Connecting to sandbox.smtp.mailtrap.io:465
+24/01/13 12:07:10 ** Disconnected.
+24/01/13 12:07:10 ** Disconnected.
+24/01/13 12:07:10 ** Disconnected.
+24/01/13 12:07:10 ** Error connecting with SSL.<EOL>Error connecting with SSL.<EOL>error:1408F10B:SSL routines:SSL3_GET_RECORD:wrong version number
+24/01/13 12:07:51 ** --- MESSAGE BEGIN ---
+24/01/13 12:07:51 ** To: christianbalaisvi@gmail.com
+24/01/13 12:07:51 ** Subject: test
+24/01/13 12:07:51 ** FROM: christianbalais06@gmail.com
+24/01/13 12:07:51 ** 
+24/01/13 12:07:51 ** test
+24/01/13 12:07:51 ** --- MESSAGE END ---
+24/01/13 12:07:52 ** Connecting to sandbox.smtp.mailtrap.io:2525
+24/01/13 12:07:53 ** Disconnected.
+24/01/13 12:07:53 ** Disconnected.
+24/01/13 12:07:53 ** Disconnected.
+24/01/13 12:07:53 ** Error connecting with SSL.<EOL>Error connecting with SSL.<EOL>error:1408F10B:SSL routines:SSL3_GET_RECORD:wrong version number
+24/01/13 12:08:53 ** --- MESSAGE BEGIN ---
+24/01/13 12:08:53 ** To: christianbalaisvi@gmail.com
+24/01/13 12:08:53 ** Subject: test
+24/01/13 12:08:53 ** FROM: christianbalais06@gmail.com
+24/01/13 12:08:53 ** 
+24/01/13 12:08:53 ** test
+24/01/13 12:08:53 ** --- MESSAGE END ---
+24/01/13 12:08:54 ** Connecting to sandbox.smtp.mailtrap.io:2525
+24/01/13 12:08:55 ** Connected.
+24/01/13 12:08:55 << 220 smtp.mailtrap.io ESMTP ready<EOL>
+24/01/13 12:08:55 >> EHLO localhost<EOL>
+24/01/13 12:08:55 << 250-smtp.mailtrap.io<EOL>250-SIZE 5242880<EOL>250-PIPELINING<EOL>250-ENHANCEDSTATUSCODES<EOL>250-8BITMIME<EOL>250-DSN<EOL>250-AUTH PLAIN LOGIN CRAM-MD5<EOL>250 STARTTLS<EOL>
+24/01/13 12:08:55 ** Authenticating as b436de3cde2761
+24/01/13 12:08:55 >> STARTTLS<EOL>
+24/01/13 12:08:55 << 220 2.0.0 Start TLS<EOL>
+24/01/13 12:08:55 ** Disconnected.
+24/01/13 12:08:55 ** Disconnected.
+24/01/13 12:08:55 ** Disconnected.
+24/01/13 12:08:55 ** SSL is not available on this server.
+24/01/13 12:11:12 ** --- MESSAGE BEGIN ---
+24/01/13 12:11:12 ** To: christianbalaisvi@gmail.com
+24/01/13 12:11:12 ** Subject: test
+24/01/13 12:11:12 ** FROM: christianbalais06@gmail.com
+24/01/13 12:11:12 ** 
+24/01/13 12:11:12 ** test
+24/01/13 12:11:12 ** --- MESSAGE END ---
+24/01/13 12:11:13 ** Connecting to smtp-relay.brevo.com:587
+24/01/13 12:11:13 ** Connected.
+24/01/13 12:11:13 << 220 smtp-relay.brevo.com ESMTP Service Ready<EOL>
+24/01/13 12:11:13 >> EHLO localhost<EOL>
+24/01/13 12:11:13 << 250-Hello localhost<EOL>250-PIPELINING<EOL>250-8BITMIME<EOL>250-ENHANCEDSTATUSCODES<EOL>250-CHUNKING<EOL>250-STARTTLS<EOL>250-AUTH PLAIN LOGIN CRAM-MD5<EOL>250 SIZE 20971520<EOL>
+24/01/13 12:11:13 ** Authenticating as christianbalais06@gmail.com
+24/01/13 12:11:13 >> STARTTLS<EOL>
+24/01/13 12:11:14 << 220 2.0.0 Ready to start TLS<EOL>
+24/01/13 12:11:14 >> EHLO localhost<EOL>
+24/01/13 12:11:14 << 2
+24/01/13 12:11:14 << 50-Hello localhost<EOL>
+24/01/13 12:11:14 << 2
+24/01/13 12:11:14 << 50-PIPELINING<EOL>
+24/01/13 12:11:14 << 2
+24/01/13 12:11:14 << 50-8BITMIME<EOL>
+24/01/13 12:11:14 << 2
+24/01/13 12:11:14 << 50-ENHANCEDSTATUSCODES<EOL>
+24/01/13 12:11:14 << 2
+24/01/13 12:11:14 << 50-CHUNKING<EOL>
+24/01/13 12:11:14 << 2
+24/01/13 12:11:14 << 50-AUTH LOGIN CRAM-MD5 PLAIN<EOL>
+24/01/13 12:11:14 << 2
+24/01/13 12:11:14 << 50 SIZE 20971520<EOL>
+24/01/13 12:11:14 >> AUTH LOGIN<EOL>
+24/01/13 12:11:14 << 3
+24/01/13 12:11:14 << 34 VXNlcm5hbWU6<EOL>
+24/01/13 12:11:14 >> Y2hyaXN0aWFuYmFsYWlzMDZAZ21haWwuY29t<EOL>
+24/01/13 12:11:14 << 3
+24/01/13 12:11:14 << 34 UGFzc3dvcmQ6<EOL>
+24/01/13 12:11:14 >> eHNtdHBzaWItNGIzN2Y1OGRjOWU2MzQxNjAwZTgyMTQ5NDdjOTNlYWJlZWIyMzc4YWI4MjUxOThhZjY2MzNjNzFlOWE1MGIyYi03RHpWeHc5UDV2eTFmbUtx<EOL>
+24/01/13 12:11:15 << 2
+24/01/13 12:11:15 << 35 2.0.0 Authentication succeeded<EOL>
+24/01/13 12:11:15 >> MAIL FROM: <christianbalais06@gmail.com><EOL>
+24/01/13 12:11:15 << 2
+24/01/13 12:11:15 << 50 2.0.0 Roger, accepting mail from <christianbalais06@gmail.com><EOL>
+24/01/13 12:11:15 >> RCPT TO: <christianbalaisvi@gmail.com><EOL>
+24/01/13 12:11:15 << 2
+24/01/13 12:11:15 << 50 2.0.0 I'll make sure <christianbalaisvi@gmail.com> gets this<EOL>
+24/01/13 12:11:15 >> DATA<EOL>
+24/01/13 12:11:15 << 3
+24/01/13 12:11:15 << 54 Go ahead. End your data with <CR><LF>.<CR><LF><EOL>
+24/01/13 12:11:15 >> Date: Sat, 13 Jan 2024 12:11:15 +0800<EOL>
+24/01/13 12:11:15 >> To: christianbalaisvi@gmail.com<EOL>
+24/01/13 12:11:15 >> Subject: test<EOL>
+24/01/13 12:11:15 >> FROM: christianbalais06@gmail.com<EOL>
+24/01/13 12:11:15 >> <EOL>
+24/01/13 12:11:15 >> test<EOL>
+24/01/13 12:11:15 >> .<EOL>
+24/01/13 12:11:15 << 2
+24/01/13 12:11:15 << 50 2.0.0 OK: queued as <202401130411.29032832601@smtp-relay.sendinblue.com><EOL>
+24/01/13 12:11:15 >> QUIT<EOL>
+24/01/13 12:11:15 << 2
+24/01/13 12:11:15 << 21 2.0.0 Bye<EOL>
+24/01/13 12:11:15 ** Disconnected.
+24/01/13 12:11:15 ** Disconnected.
+24/01/13 12:11:15 ** Disconnected.

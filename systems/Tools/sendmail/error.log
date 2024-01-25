@@ -1,0 +1,14 @@
+24/01/13 11:45:18 : Message is missing sender's address
+24/01/13 11:46:57 : SSL is not available on this server.
+24/01/13 11:49:13 : Socket Error # 11001<EOL>Host not found.
+24/01/13 11:50:24 : SSL is not available on this server.
+24/01/13 11:51:09 : SSL is not available on this server.
+24/01/13 11:52:05 : SSL is not available on this server.
+24/01/13 12:01:29 : Connect timed out.
+24/01/13 12:03:43 : Connect timed out.
+24/01/13 12:04:43 : Connect timed out.
+24/01/13 12:05:27 : Connect timed out.
+24/01/13 12:06:25 : Connect timed out.
+24/01/13 12:07:10 : Error connecting with SSL.<EOL>Error connecting with SSL.<EOL>error:1408F10B:SSL routines:SSL3_GET_RECORD:wrong version number
+24/01/13 12:07:53 : Error connecting with SSL.<EOL>Error connecting with SSL.<EOL>error:1408F10B:SSL routines:SSL3_GET_RECORD:wrong version number
+24/01/13 12:08:55 : SSL is not available on this server.
