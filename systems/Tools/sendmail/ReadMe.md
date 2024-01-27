@@ -1,9 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
+<!-- <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>fake sendmail for windows</title>
-<style>
+<title>fake sendmail for windows</title></head>-->
+<body bgcolor="#ffffff" link="#1084d0" text="#555555" vlink="#1084d0">
+<!-- <style>
   body {
     background-color: #ffffff;
   }
@@ -22,11 +23,7 @@
   a {
     text-decoration: none;
   }
-</style>
-</head>
-
-<body bgcolor="#ffffff" link="#1084d0" text="#555555" vlink="#1084d0">
-
+</style> -->
 <pre><span class="head">fake sendmail for bugzilla/windows</span>
 
   glob.com.au/sendmail
