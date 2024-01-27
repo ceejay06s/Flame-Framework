@@ -38,11 +38,17 @@ class Controller
         }
     }
 
-    public function loadModel($ModelName)
+    public function loadModel($ModelName = null)
     {
-        require_once APP . 'models' . DS . $ModelName . '.php';
-        $ModelFName = "\Flame\Model" . DS . $ModelName;
-        $this->controller->$ModelName = $this->$ModelName = new $ModelFName($this);
+        if (!empty($ModelName)) {
+            require_once APP . 'models' . DS . $ModelName . '.php';
+            $ModelFName = "\Flame\Model" . DS . $ModelName;
+            $this->controller->$ModelName = $this->$ModelName = new $ModelFName($this);
+        } else {
+            require_once SYSTEM . 'Model' . '.php';
+            $ModelFName = "\Flame\Model";
+            $this->controller->$ModelName = $this->$ModelName = new $ModelFName($this);
+        }
 
         return $this;
     }
