@@ -20,6 +20,16 @@ class ComposerStaticInit082961c384f8032aa6835d443214e1f5
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'O' => 
+        array (
+            'OAuth2' => 
+            array (
+                0 => __DIR__ . '/..' . '/bshaffer/oauth2-server-php/src',
+            ),
+        ),
+    );
+
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
     );
@@ -29,6 +39,7 @@ class ComposerStaticInit082961c384f8032aa6835d443214e1f5
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit082961c384f8032aa6835d443214e1f5::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit082961c384f8032aa6835d443214e1f5::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit082961c384f8032aa6835d443214e1f5::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit082961c384f8032aa6835d443214e1f5::$classMap;
 
         }, null, ClassLoader::class);
