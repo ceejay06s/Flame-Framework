@@ -55,13 +55,14 @@ class WebSocket
         echo "[$timestamp] SERVER > Server Address : ws://{$this->address}:{$this->port}\r\n";
         $this->_servers[(int) $this->server] = $this->server;
         while (true) {
-
             sleep(1);
             $read = $this->_servers;
             $write = $except = null;
             echo "[$timestamp] SERVER > Accepting new Client...\r\n";
             socket_select($read, $write, $except, 0, 10);
+            $this->onStart($read);
             foreach ($read as $_servers) {
+
                 if ($_servers == $this->server) {
                     $this->client = socket_accept($this->server);
                     if ($this->client < 0) {
@@ -91,6 +92,9 @@ class WebSocket
                 }
             }
         }
+    }
+    function onStart($server = null)
+    {
     }
     function proccess($buffer, $_servers = null)
     {

@@ -1,0 +1,77 @@
+[
+  {
+    "result": "P",
+    "symbol": "P1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "B1",
+    "is_tie": 0
+  },
+  {
+    "result": "P",
+    "symbol": "P1",
+    "is_tie": 0
+  },
+  {
+    "result": "P",
+    "symbol": "P1",
+    "is_tie": 0
+  },
+  {
+    "result": "P",
+    "symbol": "P1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "B1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "B1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "B1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "B1",
+    "is_tie": 0
+  },
+  {
+    "result": "P",
+    "symbol": "P1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "B1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "B1",
+    "is_tie": 0
+  },
+  {
+    "result": "B",
+    "symbol": "T3",
+    "is_tie": 1
+  },
+  {
+    "result": "P",
+    "symbol": "P2",
+    "is_tie": 0
+  },
+  {
+    "result": "P",
+    "symbol": "P1",
+    "is_tie": 0
+  }
+]
