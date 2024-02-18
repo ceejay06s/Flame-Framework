@@ -11,7 +11,6 @@ include_once APP . 'vendor/autoload.php';
 
 $config = function ($conf, $value) {
     if (strstr($conf, 'ini__')) {
-        //
         $conf = trim($conf, 'ini__');
         ini_set($conf, $value);
     } else
@@ -19,19 +18,16 @@ $config = function ($conf, $value) {
 };
 
 
-// session_save_path(APP . 'tmp/cache/session');
-// session_start();
 
 function useLibrary($lib, $dir = 'libs', $path = SYSTEM)
 {
     require_once $path . $dir . DS . $lib . '.php';
 };
 
-// useLibrary('Session');
-// $session = new Flame\Session();
+useLibrary('Inflector');
+useLibrary('Session');
 
 require_once APP . 'config/core.php';
-require_once SYSTEM . 'libs\Inflector.php';
 require_once SYSTEM . 'Router.php';
 require_once SYSTEM . 'Core.php';
 require_once SYSTEM . 'Controller.php';
