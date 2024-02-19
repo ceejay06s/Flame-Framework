@@ -7,5 +7,5 @@ $default = array(
     'password' => 'fN4i.fJso@wAhaQp',
     'database' => 'walletmanager',
     'prefix' => '',
-    'charset' => 'utf8',
+    'charset' => 'UTF8',
 );

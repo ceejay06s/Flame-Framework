@@ -11,12 +11,14 @@ class Model
     var $config;
     var $query;
     var $table;
+    var $dns;
     function __construct($controller = null)
     {
         include APP . 'config/database.php';
         $this->config = get_defined_vars()[$this->scheme];
+        $this->$dns = "{$this->config['type']}:host={$this->config['host']};port={$this->config['port']};charset={$this->config['charset']};}";
         try {
-            $this->con = new PDO("{$this->config['type']}:host={$this->config['host']};port={$this->config['port']};charset this->config['charset']}", $this->config['username'], $this->config['password']);
+            $this->con = new PDO($this->$dns, $this->config['username'], $this->config['password']);
             $this->con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->query = "CREATE DATABASE IF NOT EXISTS {$this->config['database']};";
         } catch (\PDOException $e) {

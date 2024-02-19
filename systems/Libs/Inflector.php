@@ -6,36 +6,41 @@ use \ICanBoogie\Inflector as Inflectors;
 
 class Inflector
 {
+    static function countable($text)
+    {
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        return $inf->is_uncountable($text) ? false : true;
+    }
     static function ordinal($text, $type)
     {
-        $inf = Inflectors::get();
+        $$inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
         if ($type == 2) return $inf->ordinalize($text);
 
         else $inf->ordinal($text);
     }
     static function titleize($text)
     {
-        $inf = Inflectors::get();
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
         return $inf->titleize($text);
     }
     static function humanize($text)
     {
-        $inf = Inflectors::get();
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
         return $inf->humanize($text);
     }
     static function pluralize($text)
     {
-        $inf = Inflectors::get();
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
         return $inf->pluralize($text);
     }
     static function singularize($text)
     {
-        $inf = Inflectors::get();
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
         return $inf->singularize($text);
     }
     static function underscore($text)
     {
-        $inf = Inflectors::get();
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
         return $inf->underscore($text);
     }
 
@@ -47,7 +52,7 @@ class Inflector
     }
     static function camelize($text, $type = NULL)
     {
-        $inf = Inflectors::get();
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
         switch ($type) {
             case 1:
             case "UPCASE_FIRST_LETTER":
