@@ -6,10 +6,22 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit082961c384f8032aa6835d443214e1f5
 {
+    public static $files = array (
+        '603ce470d3b0980801c7a6185a3d6d53' => __DIR__ . '/..' . '/icanboogie/inflector/lib/helpers.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
             'PHPMailer\\PHPMailer\\' => 20,
+        ),
+        'I' => 
+        array (
+            'ICanBoogie\\' => 11,
+        ),
+        'D' => 
+        array (
+            'Doctrine\\Inflector\\' => 19,
         ),
     );
 
@@ -17,6 +29,14 @@ class ComposerStaticInit082961c384f8032aa6835d443214e1f5
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'ICanBoogie\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/icanboogie/inflector/lib',
+        ),
+        'Doctrine\\Inflector\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/inflector/lib/Doctrine/Inflector',
         ),
     );
 

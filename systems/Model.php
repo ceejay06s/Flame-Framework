@@ -24,8 +24,18 @@ class Model
         }
         $this->query = "use {$this->config['database']};";
         $this->con->exec($this->query);
+        $name = explode('\\', get_class($this));
+        $this->table = (!empty($this->table) ? $this->table : strtolower(Inflector::pluralize(end($name))));
     }
     function execute($query)
+    {
+        $res = $this->con->prepare($query);
+
+        $res->execute();
+        $res->setFetchMode(PDO::FETCH_ASSOC);
+        print_r(($res->fetchAll()));
+    }
+    function first($query)
     {
         $res = $this->con->prepare($query);
 
