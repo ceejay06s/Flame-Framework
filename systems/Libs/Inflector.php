@@ -2,54 +2,67 @@
 
 namespace Flame;
 
+use \ICanBoogie\Inflector as Inflectors;
+
 class Inflector
 {
+    static function countable($text)
+    {
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        return $inf->is_uncountable($text) ? false : true;
+    }
+    static function ordinal($text, $type)
+    {
+        $$inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        if ($type == 2) return $inf->ordinalize($text);
+
+        else $inf->ordinal($text);
+    }
+    static function titleize($text)
+    {
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        return $inf->titleize($text);
+    }
+    static function humanize($text)
+    {
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        return $inf->humanize($text);
+    }
     static function pluralize($text)
     {
-        if (substr($text, -1) == 'y') {
-            $text = rtrim($text, 'y') . "ie";
-        }
-
-        return $text . 's';
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        return $inf->pluralize($text);
     }
-
     static function singularize($text)
     {
-        $text = rtrim($text, 's');
-        if (substr($text, -2) == 'ie') {
-            $text = rtrim($text, 'ie') . "y";
-        }
-        return $text;
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        return $inf->singularize($text);
     }
-    static function snakilize($text)
+    static function underscore($text)
     {
-        // Replace spaces and special characters with underscores
-        $text = preg_replace('/[^A-Za-z0-9]+/', '_', $text);
-        // Convert to lowercase
-        $text = strtolower($text);
-        // Remove leading and trailing underscores
-        $text = trim($text, '_');
-        return $text;
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        return $inf->underscore($text);
     }
 
     static function dashilize($text)
     {
-        // Replace spaces and special characters with underscores
-        $text = preg_replace('/[^A-Za-z0-9]+/', '-', $text);
-        // Convert to lowercase
-        $text = strtolower($text);
-        // Remove leading and trailing underscores
-        $text = trim($text, '-');
+        $text = self::underscore($text);
+        $text = str_replace('_', '-', $text);
         return $text;
     }
-    static function camelize($text)
+    static function camelize($text, $type = NULL)
     {
-        // Replace spaces and special characters with underscores
-        $text = Inflector::dashilize($text);
-        $ret = null;
-        foreach (explode("-", $text) as $words)
-            $ret .= ucfirst($words);
-        return $ret;
+        $inf = Inflectors::get(Inflectors::DEFAULT_LOCALE);
+        switch ($type) {
+            case 1:
+            case "UPCASE_FIRST_LETTER":
+                return $inf->camelize($text, Inflectors::UPCASE_FIRST_LETTER);
+            case 2:
+            case "DOWNCASE_FIRST_LETTER":
+                return $inf->camelize($text, Inflectors::DOWNCASE_FIRST_LETTER);
+            default:
+                return $inf->camelize($text);
+        }
     }
 
     protected function Log($text, $file = null)

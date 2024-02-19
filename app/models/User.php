@@ -9,6 +9,4 @@ use Flame\Model;
 class User extends Model
 {
     use \Flame\Authorization;
-
-    public $name = 'User';
 }
