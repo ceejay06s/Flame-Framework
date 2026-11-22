@@ -174,11 +174,14 @@ The web server's document root should be `public/`; do not expose application co
 
 ### Routing and controllers
 
-By convention, a URL such as `/user/login` dispatches to `UserController::login()`. Routes can also be explicitly registered in `app/config/router.php`:
+Routes must be explicitly registered in `app/config/router.php`; arbitrary URL segments are not mapped to controller or method names. Each route accepts allowed HTTP methods:
 
 ```php
-$router->addRoute('/user/login', UserController::class, 'login');
+$router->addRoute('/user/login', UserController::class, 'login', [], ['GET', 'POST']);
 ```
+
+Unknown routes return 404 and unsupported methods return 405 with an `Allow` header. The router rejects traversal and encoded path separators.
+`Router::redirect()` accepts local URLs only; external targets are rejected.
 
 Controllers extend `Flame\Controller\AppController`. Render a template with `$this->render('template')`, pass data with `$this->set('name', $value)`, or return JSON:
 
@@ -238,7 +241,13 @@ Select an email transport with `MAIL_TRANSPORT` and supply only the credentials 
 
 ## Testing and deployment checklist
 
-This repository does not currently define a PHPUnit, Pest, or npm test command. The companion [test cases and system requirements](./docs/testing-and-requirements.md) document provides a manual verification plan. Run it in a development environment with the required PHP runtime, extensions, dependencies, and test database before release.
+The repository includes a small dependency-free PHP smoke-test runner, but does not yet configure PHPUnit, Pest, CI, or an npm test command. Run the current tests from the repository root:
+
+```sh
+php -n tests/run.php
+```
+
+The `-n` switch omits local PHP configuration and was used for the available smoke-test run; on a configured environment, `php tests/run.php` may be used. The smoke tests are only a starting point. The companion [test cases and system requirements](./docs/testing-and-requirements.md) provides the broader manual verification plan. Run it in a development environment with the required PHP runtime, extensions, dependencies, and disposable test database before release.
 
 Before deploying:
 
@@ -254,6 +263,8 @@ Before deploying:
 
 - [Integration examples and configuration](./docs/integrations.md)
 - [System requirements and test cases](./docs/testing-and-requirements.md)
+- [Prioritized production-readiness and security plan](./docs/production-readiness-plan.md)
+- [Production-readiness execution checklist and handoff](./docs/production-readiness-checklist.md)
 
 ## License and attribution
 

@@ -6,11 +6,12 @@ $env = static function ($name, $default = '') {
 };
 
 $config('ini__display_errors', false);
-$config('ini__display_startup_errors', true);
+$config('ini__display_startup_errors', false);
+$config('ini__log_errors', true);
 $config('securitySalt', $env('APP_KEY'));
 $config('hash', 'SHA256');
 
-$config('session_path', APP . 'tmp/cache/session');
+$config('session_path', $env('SESSION_PATH', APP . 'tmp/cache/session'));
 
 $config('smtp_service', $env('MAIL_TRANSPORT', 'native'));
 $config('smtp_server', $env('MAIL_HOST'));

@@ -5,54 +5,75 @@ namespace Flame;
 
 class Core
 {
-    protected $controller = 'HomeController';
-    protected $method = 'index';
-    protected $params = [];
-
     public function __construct()
     {
-        $this->parseUrl();
-
-        $controllerPath = CONTROLLERS . $this->controller . '.php';
-        if (file_exists($controllerPath)) {
-            require_once $controllerPath;
-            $this->controller = new $this->controller;
-            if (method_exists($this->controller, $this->method)) {
-                call_user_func_array([$this->controller, $this->method], $this->params);
-            } else {
-                echo "Method does not exist.";
-            }
-        } else {
-            echo "Controller does not exist.";
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+        $requestMethod = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        $requestPath = parse_url($requestUri, PHP_URL_PATH);
+        if (!is_string($requestPath)) {
+            $this->notFound();
+            return;
         }
+
+        try {
+            $requestPath = Router::normalizePath($requestPath);
+        } catch (\InvalidArgumentException $exception) {
+            $this->notFound();
+            return;
+        }
+
+        require APP . 'config' . DS . 'router.php';
+        if (!isset($router) || !($router instanceof Router)) {
+            throw new \RuntimeException('Application router configuration must provide a Flame\\Router instance.');
+        }
+
+        $route = $router->match($requestPath, $requestMethod);
+        if ($route === null) {
+            $this->notFound();
+            return;
+        }
+        if (!empty($route['method_not_allowed'])) {
+            http_response_code(405);
+            header('Allow: ' . implode(', ', $route['allow']));
+            echo 'Method Not Allowed';
+            return;
+        }
+
+        $controllerPath = CONTROLLERS . $route['controller'] . '.php';
+        if (!is_file($controllerPath)) {
+            $this->notFound();
+            return;
+        }
+        require_once $controllerPath;
+
+        $controllerClass = $route['controller'];
+        if (!class_exists($controllerClass, false)) {
+            throw new \RuntimeException("Configured controller '{$controllerClass}' was not declared by its file.");
+        }
+
+        $controller = new $controllerClass();
+        if (!method_exists($controller, $route['action'])) {
+            $this->notFound();
+            return;
+        }
+
+        $action = new \ReflectionMethod($controller, $route['action']);
+        if (
+            !$action->isPublic()
+            || $action->isStatic()
+            || $action->isConstructor()
+            || $action->getDeclaringClass()->getName() !== $controllerClass
+        ) {
+            $this->notFound();
+            return;
+        }
+
+        call_user_func_array([$controller, $route['action']], $route['params']);
     }
 
-    protected function parseUrl()
+    private function notFound()
     {
-        if (isset($_SERVER['REQUEST_URI'])) {
-            $uri = $_SERVER['REQUEST_URI'];
-            $url = rtrim($uri, '/');
-            $url = filter_var($url, FILTER_SANITIZE_URL);
-            $url = trim($url);
-            $url = explode('/', $url);
-
-            $url['url']  = $url[0];
-            if (isset($url[1], $url[2]))
-                $url['url'] = '/' . $url[1] . '/' . $url[2];
-
-            require_once APP . "config/router.php";
-
-            if (isset($router->routes[$url['url']])) {
-                $this->controller = $router->routes[$url['url']]['controller'];
-                $this->method = $router->routes[$url['url']]['action'];
-                $this->params = $router->routes[$url['url']]['params'];
-            }
-            //
-            else {
-                $this->controller = !empty($url[1]) ? ucfirst($url[1]) . 'Controller' : 'HomeController';
-                $this->method = isset($url[2]) ? $url[2] : 'index';
-                $this->params = array_slice($url, 3);
-            }
-        }
+        http_response_code(404);
+        echo 'Not Found';
     }
 }

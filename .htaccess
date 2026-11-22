@@ -1,4 +1,8 @@
-#RewriteBase /public
+RewriteEngine On
+
+RewriteRule ^(?:app|systems|console|docs|tests)(?:/|$) - [F,L,NC]
+RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
+RewriteRule ^(?:composer\.(?:json|lock)|package(?:-lock)?\.json|README\.md|sample\.txt|test\.log)$ - [F,L,NC]
 
 RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
 RewriteRule ^ %1 [L,NE,R=302]

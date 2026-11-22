@@ -58,7 +58,6 @@ class WebSocket
             sleep(1);
             $read = $this->_servers;
             $write = $except = null;
-            echo "[$timestamp] SERVER > Accepting new Client...\r\n";
             socket_select($read, $write, $except, 0, 10);
             $this->onStart($read);
             foreach ($read as $_servers) {
@@ -106,7 +105,6 @@ class WebSocket
             $this->data = $data;
         }
         $this->onReceive($this->read);
-        echo "[$timestamp] CLIENT > " . print_r($this->data, true) . "\r\n";
     }
 
     function onReceive()

@@ -1,6 +1,14 @@
 # System requirements and test cases
 
-This document records the runtime requirements and a manual verification plan for Flame Framework. The repository currently has no configured PHPUnit/Pest suite or npm test script. These cases are test scenarios, not a claim that they have already been run. Run them in a development or staging environment, never against production data.
+This document records the runtime requirements and a manual verification plan for Flame Framework. The repository has a small dependency-free PHP smoke-test runner at `tests/run.php`, but no configured PHPUnit/Pest suite, comprehensive automated coverage, CI workflow, or npm test script. The cases below are test scenarios, not a claim that they have all been run. Run them in a development or staging environment, never against production data.
+
+Run the current smoke tests from the repository root with:
+
+```sh
+php -n tests/run.php
+```
+
+The `-n` switch omits local PHP configuration and was used for the available smoke-test run. The runner covers basic JWT signing/validation, cron matching, scheduler duplicate-run suppression, session settings, and explicit route matching. It is not a substitute for the full integration and staging checks in this document.
 
 ## System requirements
 
@@ -67,6 +75,8 @@ The `.env.example` file is a reference list; it is not loaded by the application
 |---|---|---|
 | `APP_KEY` | Password hashing/authentication is used | Private HMAC key; configure a stable, high-entropy secret |
 | `JWT_SECRET` | JWTs are used | Private HS256 signing key; use a different key from `APP_KEY` |
+| `SESSION_PATH` | Sessions are used | Existing writable session directory; defaults to `app/tmp/cache/session/` |
+| `SESSION_COOKIE_SECURE` | Sessions are used | `true`/`false`; set to `true` when HTTPS terminates at a trusted proxy |
 | `DB_CONNECTION` | Database models are used | `mysql`, `pgsql`, `sqlsrv`, or `mssql` |
 | `DB_HOST`, `DB_PORT` | Database models are used | Database endpoint |
 | `DB_DATABASE` | Database models are used | Existing database name |
@@ -122,6 +132,9 @@ Each case has a setup, action, and expected result. Mark cases not enabled in th
 | WEB-05 | JSON response | Call `$this->json(['status' => 'ok'], 201)`. | Response has HTTP 201 and `Content-Type: application/json; charset=utf-8`; body decodes to the supplied object. |
 | WEB-06 | Invalid JSON payload | Pass a value that `json_encode()` cannot encode, such as a recursive structure. | A runtime error is raised rather than returning a success-shaped response. |
 | WEB-07 | Invalid HTTP status | Call the JSON helper with a value outside the integer range 100–599 or a non-integer. | An `InvalidArgumentException` is raised. |
+| WEB-08 | Route allowlist and method checks | Register an explicit route and request an unregistered path or disallowed method. | Unregistered path returns 404; disallowed method returns 405 and an `Allow` header. |
+| WEB-09 | Unsafe path rejection | Request paths containing traversal, encoded separators, backslashes, or control characters. | The router rejects the path and no controller/action is invoked. |
+| WEB-10 | Redirect validation | Attempt an external URL, protocol-relative URL, or CR/LF-containing redirect target. | The router rejects the target without sending a redirect response. |
 
 ### Database models
 

@@ -2,7 +2,7 @@
 
 ## Database
 
-Use `.env.example` as a reference and provide its values to the PHP process through your process manager or deployment platform. The framework does not parse `.env` files. Generate independent, random values for `APP_KEY` and `JWT_SECRET` and store them in a secret manager; do not use the empty example values in production. Set `DB_CONNECTION` to `mysql`, `pgsql`, `sqlsrv`, or `mssql` (`mssql` is an alias for `sqlsrv`) and provide the matching PDO extension and connection values. The configured database must already exist; Flame does not create databases automatically.
+Use `.env.example` as a reference and provide its values to the PHP process through your process manager or deployment platform. The framework does not parse `.env` files. Generate independent, random values for `APP_KEY` and `JWT_SECRET` and store them in a secret manager; do not use the empty example values in production. Set `SESSION_COOKIE_SECURE=true` when HTTPS terminates at a trusted proxy, since the app intentionally does not trust arbitrary forwarded-protocol headers. `SESSION_PATH` may point to a dedicated existing writable directory. Set `DB_CONNECTION` to `mysql`, `pgsql`, `sqlsrv`, or `mssql` (`mssql` is an alias for `sqlsrv`) and provide the matching PDO extension and connection values. The configured database must already exist; Flame does not create databases automatically.
 
 Models expose parameterized `execute()`, `first()`, `all()`, `insert()`, `update()`, and `delete()` methods, plus `create()`/`save()` for inserts. Update and delete operations require explicit conditions. For example:
 

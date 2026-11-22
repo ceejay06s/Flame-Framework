@@ -223,70 +223,6 @@ class Mail
                 }
             }
 
-            private function sendCurl()
-            {
-                if ($this->curlEndpoint === '' || !filter_var($this->curlEndpoint, FILTER_VALIDATE_URL)) {
-                    throw new \InvalidArgumentException('MAIL_CURL_ENDPOINT must be a valid URL for the cURL mail transport.');
-                }
-                if (strtolower((string) parse_url($this->curlEndpoint, PHP_URL_SCHEME)) !== 'https') {
-                    throw new \InvalidArgumentException('The cURL mail endpoint must use HTTPS.');
-                }
-                if (!function_exists('curl_init')) {
-                    throw new \RuntimeException('The cURL extension is required for the cURL mail transport.');
-                }
-                if (empty($this->to) || $this->subject === null || $this->body === null) {
-                    throw new \InvalidArgumentException('Recipient, subject, and body are required to send email.');
-                }
-
-                $payload = json_encode([
-                    'to' => $this->to,
-                    'from' => $this->from,
-                    'from_name' => $this->fromName,
-                    'reply_to' => $this->replyTo,
-                    'subject' => $this->subject,
-                    'body' => $this->body,
-                    'html' => true,
-                ], JSON_UNESCAPED_SLASHES);
-                if ($payload === false) {
-                    throw new \RuntimeException('Could not encode the email request as JSON.');
-                }
-
-                $headers = ['Content-Type: application/json', 'Accept: application/json'];
-                if ($this->curlApiKey !== '') {
-                    if (preg_match('/[\r\n]/', $this->curlApiKey)) {
-                        throw new \InvalidArgumentException('MAIL_CURL_API_KEY must not contain line breaks.');
-                    }
-                    $headers[] = 'Authorization: Bearer ' . $this->curlApiKey;
-                }
-
-                $handle = curl_init($this->curlEndpoint);
-                if ($handle === false) {
-                    throw new \RuntimeException('Could not initialize the cURL mail request.');
-                }
-
-                curl_setopt_array($handle, [
-                    CURLOPT_POST => true,
-                    CURLOPT_POSTFIELDS => $payload,
-                    CURLOPT_HTTPHEADER => $headers,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_CONNECTTIMEOUT => 10,
-                    CURLOPT_TIMEOUT => 30,
-                ]);
-                $response = curl_exec($handle);
-                $error = curl_error($handle);
-                $status = (int) curl_getinfo($handle, CURLINFO_HTTP_CODE);
-                curl_close($handle);
-
-                if ($response === false) {
-                    throw new \RuntimeException('cURL mail request failed: ' . $error);
-                }
-                if ($status < 200 || $status >= 300) {
-                    throw new \RuntimeException("Mail API returned HTTP {$status}: " . (string) $response);
-                }
-
-                return true;
-            }
-
             if (!empty($this->attachments)) {
                 foreach ($this->attachments as $attachment) {
                     $this->mailer->addAttachment($attachment);
@@ -300,6 +236,70 @@ class Mail
             $this->lastMessageID = $this->mailer->getLastMessageID();
             return $send;
         }
+    }
+
+    private function sendCurl()
+    {
+        if ($this->curlEndpoint === '' || !filter_var($this->curlEndpoint, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException('MAIL_CURL_ENDPOINT must be a valid URL for the cURL mail transport.');
+        }
+        if (strtolower((string) parse_url($this->curlEndpoint, PHP_URL_SCHEME)) !== 'https') {
+            throw new \InvalidArgumentException('The cURL mail endpoint must use HTTPS.');
+        }
+        if (!function_exists('curl_init')) {
+            throw new \RuntimeException('The cURL extension is required for the cURL mail transport.');
+        }
+        if (empty($this->to) || $this->subject === null || $this->body === null) {
+            throw new \InvalidArgumentException('Recipient, subject, and body are required to send email.');
+        }
+
+        $payload = json_encode([
+            'to' => $this->to,
+            'from' => $this->from,
+            'from_name' => $this->fromName,
+            'reply_to' => $this->replyTo,
+            'subject' => $this->subject,
+            'body' => $this->body,
+            'html' => true,
+        ], JSON_UNESCAPED_SLASHES);
+        if ($payload === false) {
+            throw new \RuntimeException('Could not encode the email request as JSON.');
+        }
+
+        $headers = ['Content-Type: application/json', 'Accept: application/json'];
+        if ($this->curlApiKey !== '') {
+            if (preg_match('/[\r\n]/', $this->curlApiKey)) {
+                throw new \InvalidArgumentException('MAIL_CURL_API_KEY must not contain line breaks.');
+            }
+            $headers[] = 'Authorization: Bearer ' . $this->curlApiKey;
+        }
+
+        $handle = curl_init($this->curlEndpoint);
+        if ($handle === false) {
+            throw new \RuntimeException('Could not initialize the cURL mail request.');
+        }
+
+        curl_setopt_array($handle, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_HTTPHEADER => $headers,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 30,
+        ]);
+        $response = curl_exec($handle);
+        $error = curl_error($handle);
+        $status = (int) curl_getinfo($handle, CURLINFO_HTTP_CODE);
+        curl_close($handle);
+
+        if ($response === false) {
+            throw new \RuntimeException('cURL mail request failed: ' . $error);
+        }
+        if ($status < 200 || $status >= 300) {
+            throw new \RuntimeException("Mail API returned HTTP {$status}: " . (string) $response);
+        }
+
+        return true;
     }
 
     function getSendMail()
