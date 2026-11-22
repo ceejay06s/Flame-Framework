@@ -15,11 +15,14 @@ class Auth
     {
         $this->controller = $controller;
         $this->Session = new Session;
-        self::$allowedActions = $this->Session->get('allowedAction');
+        self::$allowedActions = $this->Session->get('allowedAction') ?: [];
     }
     public function allow($method)
     {
         $controller = $this->controller->name;
-        $this->Session->set('allowedAction', array("{$controller}:{$method}" => "{$controller}:{$method}"));
+        $allowedActions = $this->Session->get('allowedAction') ?: [];
+        $allowedActions["{$controller}:{$method}"] = "{$controller}:{$method}";
+        self::$allowedActions = $allowedActions;
+        $this->Session->set('allowedAction', $allowedActions);
     }
 }

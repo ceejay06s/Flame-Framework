@@ -61,6 +61,27 @@ class Controller
         $this->sets[$var] = $values;
         return $this;
     }
+
+    public function json($data, $status = 200)
+    {
+        if (headers_sent()) {
+            throw new \RuntimeException('Cannot send a JSON response after output has started.');
+        }
+        if (!is_int($status) || $status < 100 || $status > 599) {
+            throw new \InvalidArgumentException('HTTP status must be an integer between 100 and 599.');
+        }
+
+        $json = json_encode($data, JSON_UNESCAPED_SLASHES);
+        if ($json === false) {
+            throw new \RuntimeException('Unable to encode the response as JSON: ' . json_last_error_msg());
+        }
+
+        http_response_code($status);
+        header('Content-Type: application/json; charset=utf-8');
+        echo $json;
+        return $this;
+    }
+
     public function render($view, $args = [])
     {
         $this->beforeRender();

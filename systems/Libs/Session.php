@@ -14,7 +14,7 @@ class Session
     }
     function get($name)
     {
-        return (!empty($_SESSION[$name]) ? $_SESSION[$name] : NULL);
+        return array_key_exists($name, $_SESSION) ? $_SESSION[$name] : null;
     }
 
     function set($name, $value)

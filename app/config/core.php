@@ -1,23 +1,24 @@
 <?php
 
-/* ini */
+$env = static function ($name, $default = '') {
+    $value = getenv($name);
+    return $value === false || $value === '' ? $default : $value;
+};
 
 $config('ini__display_errors', false);
 $config('ini__display_startup_errors', true);
-/* Secuurity Hashing */
-$config('securitySalt', 'E9C373e3cc9111AA305821413BEF4ab4a24e48ee');
-$config('hash', 'MD5');
+$config('securitySalt', $env('APP_KEY'));
+$config('hash', 'SHA256');
 
-//session
 $config('session_path', APP . 'tmp/cache/session');
 
-/* Mail Service */
-
-$config('smtp_service', "PhpMailer"); // native || sendmail || PhpMailer 
-$config('smtp_server', "smtp-relay.brevo.com");
-$config('smtp_port', 587);
-$config('smtp_protocol', 'auto');
-$config('smtp_username', 'christianbalais06@gmail.com');
-$config('smtp_password', "xsmtpsib-4b37f58dc9e6341600e8214947c93eabeeb2378ab825198af6633c71e9a50b2b-7DzVxw9P5vy1fmKq");
-$config('smtp_XMailer', "XMail-OMEPH-V1");
+$config('smtp_service', $env('MAIL_TRANSPORT', 'native'));
+$config('smtp_server', $env('MAIL_HOST'));
+$config('smtp_port', (int) $env('MAIL_PORT', 587));
+$config('smtp_protocol', $env('MAIL_ENCRYPTION', 'tls'));
+$config('smtp_username', $env('MAIL_USERNAME'));
+$config('smtp_password', $env('MAIL_PASSWORD'));
+$config('smtp_curl_url', $env('MAIL_CURL_ENDPOINT'));
+$config('smtp_curl_api_key', $env('MAIL_CURL_API_KEY'));
+$config('smtp_XMailer', 'Flame Framework');
 $config('ini__sendmail_path', SYSTEM . 'Tools/sendmail/sendmail -t -i');

@@ -14,41 +14,34 @@ A lightweight MVC PHP framework built for fast application development and clean
 
 ### Authentication
 - ✅ Secure basic auth with encrypted passwords and sessions
-- 🕒 OAuth support (planned)
-- 🕒 JWT support (planned)
+- ✅ OAuth 2.0 server helpers and schema installer
+- ✅ HS256 JWT signing and verification
 
 ### Database
-- ✅ MySQL support
-- 🕒 MSSQL support (planned)
-- 🕒 PostgreSQL support (planned)
+- ✅ PDO MySQL, MSSQL/SQL Server, and PostgreSQL support
 
 ### Email Options
 - ✅ Native email support
 - ✅ SendMail support
 - ✅ PhpMailer support
-- 🕒 cURL-based email support (planned)
+- ✅ Generic JSON HTTP email transport using cURL
 
 ### Console Support
 - ✅ WebSocket support
-- 🕒 Cron job support (planned)
+- ✅ Cron-expression scheduler with task locks
 
 ### Added Support
 - ✅ HTMX for inline AJAX requests
-- 🕒 React support (planned)
-- 🕒 Vue support (planned)
-- 🕒 Angular support (planned)
-- 🕒 Firebase support (planned)
+- ✅ React and Vue API-client examples
+- ✅ Angular API-client example
+- ✅ Firebase client integration guidance
 - ✅ jQuery support
 
-## Roadmap
+## Configuration
 
-Planned improvements and integrations for upcoming releases:
+Install PHP dependencies with `composer install --working-dir=app`. Copy `.env.example` as a reference and provide the variables through your process manager or deployment platform. Flame does not automatically load `.env` files. Never commit actual credentials. PHP must have the PDO extension for the configured driver; cURL email also requires PHP's cURL extension.
 
-- OAuth and JWT authentication
-- Additional database drivers (MSSQL, PostgreSQL)
-- Cron job task scheduling
-- Frontend integration support for React, Vue, Angular, and Firebase
-- cURL-based email transport
+See [database, authentication, scheduler, mail, and frontend integration guides](./docs/integrations.md) for setup and usage details.
 
 ## About
 

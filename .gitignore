@@ -3,3 +3,6 @@
 /node_modules/
 app/vendor/
 app/tmp/cache/session/
+.env
+.env.*
+!.env.example

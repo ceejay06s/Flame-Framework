@@ -1,9 +1,6 @@
 <?php
 
 useLibrary('Authorization', 'libs', SYSTEM);
-useLibrary('Oauth', 'libs', SYSTEM);
-useLibrary('Session', 'libs', SYSTEM);
-
 use Flame\Controller\AppController;
 use Flame\Session;
 
@@ -17,9 +14,6 @@ class UserController extends AppController
     {
 
         parent::__construct();
-        $session = new Session;
-        $Oauth = new OAuth($this->controller);
-        $Oauth->DbCheckCreate();
         $this->Auth->allow('login');
     }
 

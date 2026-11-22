@@ -37,6 +37,9 @@ class Mail
      **/
     public $password;
     public $port;
+    public $service;
+    public $curlEndpoint;
+    public $curlApiKey;
     /**
      * @var String $protocol choose from AUTO NONE SSL TLS
      **/
@@ -96,32 +99,33 @@ class Mail
     public function __construct()
     {
         global $smtp_XMailer, $smtp_service, $smtp_server, $smtp_port, $smtp_protocol, $smtp_username, $smtp_password;
+        global $smtp_curl_url, $smtp_curl_api_key;
 
-
-        $this->XMailer = $smtp_XMailer;
+        $this->service = strtolower((string) ($smtp_service ?? 'native'));
+        $this->XMailer = $smtp_XMailer ?? 'Flame Framework';
 
         $this->smtp = $smtp_server;
         $this->port = $smtp_port;
         $this->protocol = $smtp_protocol;
         $this->username = $smtp_username;
         $this->password = $smtp_password;
+        $this->curlEndpoint = $smtp_curl_url ?? '';
+        $this->curlApiKey = $smtp_curl_api_key ?? '';
 
-        switch ($smtp_service) {
+        switch ($this->service) {
             case "native":
                 //
                 break;
             case "sendmail":
                 $this->getSendMail();
                 break;
-            case "PhpMailer":
-                try {
-                    $this->mailer = new PHPMailer(true);
-                } catch (Exception $e) {
-                    //
-                }
+            case "phpmailer":
+                $this->mailer = new PHPMailer(true);
+                break;
+            case "curl":
                 break;
             default:
-                $this->getSendMail();
+                throw new \InvalidArgumentException("Unsupported mail transport '{$this->service}'.");
         }
 
         return $this;
@@ -143,10 +147,10 @@ class Mail
             file_put_contents($this->mail_path, implode(PHP_EOL, $this->lines));
         } else {
 
-            $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+            $this->mailer->SMTPDebug = SMTP::DEBUG_OFF;
             $this->mailer->isSMTP();                                            //Send using SMTP
             $this->mailer->Host       = $variables['smtp'];                     //Set the SMTP server to send through
-            $this->mailer->SMTPAuth   = 'true';                                   //Enable SMTP authentication
+            $this->mailer->SMTPAuth   = true;                                   //Enable SMTP authentication
             $this->mailer->Username   = $variables['username'];                     //SMTP username
             $this->mailer->Password   = $variables['password'];                               //SMTP password
             $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
@@ -169,15 +173,19 @@ class Mail
      * **/
     function send($recipient = null, $subject = null, $body = null, $header = null, $params = '')
     {
-        $this->_set();
         $this->to = isset($recipient) ? $recipient : $this->to;
         $this->subject = isset($subject) ? $subject : $this->subject;
         $this->body = isset($body) ? $body : $this->body;
         $this->header = isset($header) ? $header : $this->header;
         $this->params = isset($params) ? $params : $this->params;
 
+        if ($this->service === 'curl') {
+            return $this->sendCurl();
+        }
+
+        $this->_set();
         if (!$this->mailer) {
-            return mail($this->to, $this->subject, $this->body, implode('\r\n', $this->header), $this->params);
+            return mail($this->to, $this->subject, $this->body, implode("\r\n", $this->header), $this->params);
         } else {
             if (!empty($this->fromName)) $this->mailer->setFrom($this->from, $this->fromName);
             else $this->mailer->setFrom($this->from);
@@ -193,7 +201,7 @@ class Mail
 
             if (!empty($this->replyTo)) {
                 if (!empty($this->replyToName)) $this->mailer->addReplyTo($this->replyTo, $this->replyToName);
-                else $this->mailer->addAddress($this->replyTo);
+                else $this->mailer->addReplyTo($this->replyTo);
             }
 
             if (!empty($this->cc)) {
@@ -213,6 +221,70 @@ class Mail
                 } else {
                     $this->mailer->addBCC($this->bcc);
                 }
+            }
+
+            private function sendCurl()
+            {
+                if ($this->curlEndpoint === '' || !filter_var($this->curlEndpoint, FILTER_VALIDATE_URL)) {
+                    throw new \InvalidArgumentException('MAIL_CURL_ENDPOINT must be a valid URL for the cURL mail transport.');
+                }
+                if (strtolower((string) parse_url($this->curlEndpoint, PHP_URL_SCHEME)) !== 'https') {
+                    throw new \InvalidArgumentException('The cURL mail endpoint must use HTTPS.');
+                }
+                if (!function_exists('curl_init')) {
+                    throw new \RuntimeException('The cURL extension is required for the cURL mail transport.');
+                }
+                if (empty($this->to) || $this->subject === null || $this->body === null) {
+                    throw new \InvalidArgumentException('Recipient, subject, and body are required to send email.');
+                }
+
+                $payload = json_encode([
+                    'to' => $this->to,
+                    'from' => $this->from,
+                    'from_name' => $this->fromName,
+                    'reply_to' => $this->replyTo,
+                    'subject' => $this->subject,
+                    'body' => $this->body,
+                    'html' => true,
+                ], JSON_UNESCAPED_SLASHES);
+                if ($payload === false) {
+                    throw new \RuntimeException('Could not encode the email request as JSON.');
+                }
+
+                $headers = ['Content-Type: application/json', 'Accept: application/json'];
+                if ($this->curlApiKey !== '') {
+                    if (preg_match('/[\r\n]/', $this->curlApiKey)) {
+                        throw new \InvalidArgumentException('MAIL_CURL_API_KEY must not contain line breaks.');
+                    }
+                    $headers[] = 'Authorization: Bearer ' . $this->curlApiKey;
+                }
+
+                $handle = curl_init($this->curlEndpoint);
+                if ($handle === false) {
+                    throw new \RuntimeException('Could not initialize the cURL mail request.');
+                }
+
+                curl_setopt_array($handle, [
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => $payload,
+                    CURLOPT_HTTPHEADER => $headers,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_CONNECTTIMEOUT => 10,
+                    CURLOPT_TIMEOUT => 30,
+                ]);
+                $response = curl_exec($handle);
+                $error = curl_error($handle);
+                $status = (int) curl_getinfo($handle, CURLINFO_HTTP_CODE);
+                curl_close($handle);
+
+                if ($response === false) {
+                    throw new \RuntimeException('cURL mail request failed: ' . $error);
+                }
+                if ($status < 200 || $status >= 300) {
+                    throw new \RuntimeException("Mail API returned HTTP {$status}: " . (string) $response);
+                }
+
+                return true;
             }
 
             if (!empty($this->attachments)) {
